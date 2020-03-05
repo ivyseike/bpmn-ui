@@ -1,8 +1,14 @@
 # vue-bpmn-demo
 
-# [项目进展计划](./doc/项目进展.md)
+# [项目进展计划](./docs/项目进展.md)
 
-[配置Nginx服务器](./doc/linxu下配置Nginx服务器)
+[配置Nginx服务器](./docs/Linux下配置Nginx服务器.md)
+
+
+
+![](.img/课题四.svg)
+
+
 
 
 
