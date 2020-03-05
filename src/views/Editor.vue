@@ -186,26 +186,25 @@
 	}
 </script>
 
-<style scoped>
-	* {
-		padding: 0px;
-		margin: 0px;
-	}
-	.el-container{
+<style>
+	#editor .el-container {
 		position: fixed;
 		margin: auto;
 		left: 0px;
 		right: 0px;
 		bottom: 0px;
-		height: 90%; 
+		height: 90%;
 	}
-	.el-header{
+
+	#editor .el-header {
 		display: inline-flex;
 		height: 40px;
 	}
-	.el-header .el-button-group{
-		display:inherit	;
+
+	#editor .el-header .el-button-group {
+		display: inherit;
 	}
+
 	#editor .bpmnContainer {
 		position: relative;
 		margin: auto;
@@ -216,7 +215,8 @@
 		border-style: solid;
 		border-width: 1px;
 	}
-	#BpmnCanvas {
+
+	#editor #BpmnCanvas {
 		width: 100%;
 		height: 100%;
 	}

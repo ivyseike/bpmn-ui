@@ -1,12 +1,12 @@
 # vue-bpmn-demo
 
-# [项目进展计划](./docs/项目进展.md)
+[项目计划](./docs/项目计划.md)
 
-[配置Nginx服务器](./docs/Linux下配置Nginx服务器.md)
+[项目演示链接](http://123.207.143.93/)
 
+[进展记录](./docs/项目记录.md)
 
-
-![](.img/课题四.svg)
+![项目预期结构](.img/课题四.svg)
 
 
 
@@ -32,3 +32,9 @@ npm run build
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
+
+
+
+
+
+$ git config --global core.autocrlf true

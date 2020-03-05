@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+		<title>
+			<%= htmlWebpackPlugin.options.title %>
+		</title>
+		<style type="text/css">
+			#loader {
+				background: #409EFF;
+				height: 100%;
+				width: 100%;
+			}
+
+			#loader .loading-text {
+				position: absolute;
+				margin: auto;
+				left: 0;
+				right: 0;
+				bottom: 30%;
+				text-align: center;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 24px;
+				font-weight: bold;
+				color: #FFFFFF;
+			}
+		</style>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<noscript>
+			<strong>We're sorry but
+				<%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to
+				continue.</strong>
+		</noscript>
+		<div class="loader" id="loader">
+			<div class="l_main">
+				<div class="l_square"><span></span><span></span><span></span></div>
+				<div class="l_square"><span></span><span></span><span></span></div>
+				<div class="l_square"><span></span><span></span><span></span></div>
+				<div class="l_square"><span></span><span></span><span></span></div>
+			</div>
+			<div class="loading-text">
+				Loading...
+			</div>
+		</div>
+		<div id="app"></div>
+		<!-- built files will be auto injected -->
+	</body>
 </html>

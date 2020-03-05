@@ -1,8 +1,7 @@
 <template>
 	<div class="home">
-		<h2>主页</h2>
-		<h3>Vue-Bpmn-Demo</h3>
-		<img src="../assets/bpmn-js.gif" alt="">
+		<h2>Vue-Bpmn-Demo</h2>
+		<img src="../assets/bpmn-js.gif" style="width: 800px;">
 	</div>
 </template>
 
@@ -17,9 +16,6 @@
 		text-align: center;
 		margin:0 auto;
 		
-		
 	}
-	.home img{
-		width: 800px;
-	}
+
 </style>

@@ -42,10 +42,7 @@
 
 <style lang="scss" >
 	@import '~bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
-	* {
-		padding: 0px;
-		margin: 0px;
-	}
+
 	#simulator {
 		position: fixed;
 		margin: auto;
