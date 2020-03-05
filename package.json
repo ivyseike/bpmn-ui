@@ -1,0 +1,33 @@
+{
+	"name": "vue-bpmn-demo",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build"
+	},
+	"dependencies": {
+		"bpmn-js": "^6.3.0",
+		"bpmn-js-bpmnlint": "^0.14.0",
+		"bpmn-js-token-simulation": "^0.9.0",
+		"bpmnlint": "^6.3.0",
+		"core-js": "^3.6.4",
+		"element-ui": "^2.4.5",
+		"less-loader": "^5.0.0",
+		"node-sass": "^4.13.1",
+		"vue": "^2.6.11",
+		"vue-router": "^3.1.5",
+		"vuex": "^3.1.2"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "^4.2.0",
+		"@vue/cli-plugin-router": "^4.2.0",
+		"@vue/cli-plugin-vuex": "^4.2.0",
+		"@vue/cli-service": "^4.2.0",
+		"babel-plugin-component": "^1.1.1",
+		"bpmnlint-loader": "^0.1.4",
+		"sass-loader": "^8.0.0",
+		"vue-cli-plugin-element": "^1.0.1",
+		"vue-template-compiler": "^2.6.11"
+	}
+}
