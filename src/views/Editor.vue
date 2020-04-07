@@ -37,19 +37,20 @@
 
 <script>
 	import BpmnModeler from 'bpmn-js/lib/Modeler'
+
 	import fileLoader from '../components/Editor/fileLoader.vue'
+
 	//验证工具
 	import lintModule from 'bpmn-js-bpmnlint'
 	import bpmnlintConfig from '../bpmn/lint/.bpmnlintrc';
 	//空白Bpmn模板
-	import {
-		xmlStr
-	} from '../bpmn/samples/blank.js'
+	import BlankStr from '../bpmn/samples/blank.js'
 
 	export default {
+		name: "Editor",
 		data: function() {
 			return {
-				xmlStr: xmlStr,
+				xmlStr: this.$store.state.BpmnXml,
 				isCollapse: false,
 				bpmnModeler: null,
 				container: null,
@@ -62,6 +63,7 @@
 		methods: {
 			// 初始化函数
 			initBpmn: function() {
+				// console.log(BlankStr);
 				this.bpmnModeler = new BpmnModeler({
 					container: '#BpmnCanvas', //挂载点
 					additionalModules: [
@@ -118,7 +120,7 @@
 			//重置
 			//当前的this.xmlStr重新替换为空白模板
 			resetBPMN: function() {
-				this.xmlStr = xmlStr
+				this.xmlStr = BlankStr
 				this.bpmnModeler.importXML(this.xmlStr)
 			},
 
@@ -128,7 +130,8 @@
 					format: true
 				}, (err, xml) => {
 					this.xmlStr = xml;
-					console.log(this.xmlStr)
+					this.$store.dispatch("editXml", this.xmlStr)
+
 				});
 			},
 
@@ -140,6 +143,8 @@
 			},
 			//文本转换
 			textTransform: function() {
+				const _bpmnModeler = this.bpmnModeler
+				const axios = this.$axios
 				this.$msgbox({
 					title: "NLP",
 					message: "请输入一段描述业务流程的文字",
@@ -150,28 +155,33 @@
 						if (action === 'confirm') {
 							instance.confirmButtonLoading = true;
 							instance.confirmButtonText = '执行中...';
-							setTimeout(() => {
-								done();
-								setTimeout(() => {
+							axios({
+									method: 'post',
+									// url: 'http://123.207.143.93:8081/anything',
+									url: '/api/bpmn',
+									data: {
+										'str': instance.inputValue ? instance.inputValue : " "
+									},
+								})
+								.then((res) => {
+									_bpmnModeler.importXML(res.data)
 									instance.confirmButtonLoading = false;
-								}, 200);
-							}, 1000);
-						} else {
-							done();
+									this.$message({
+										type: 'success',
+										message: '执行成功'
+									})
+									done();
+								})
+								.catch((err) => {
+									instance.confirmButtonLoading = false;
+									this.$message({
+										type: 'error',
+										message: err
+									})
+									done();
+								});
 						}
 					}
-				}).then(({
-					value
-				}) => {
-					this.$message({
-						type: 'success',
-						message: '执行成功：' + value
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '您已取消输入'
-					});
 				});
 			},
 		},
@@ -179,6 +189,10 @@
 		//生命周期函数 - 组件载入后, Vue 实例挂载到实际的 DOM 操作完成前执行该操作，不能在created()时初始化
 		mounted: function() {
 			this.initBpmn()
+		},
+		activated:function(){
+			this.xmlStr = this.$store.state.BpmnXml
+			this.bpmnModeler.importXML(this.xmlStr)
 		}
 
 
