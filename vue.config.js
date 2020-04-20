@@ -10,12 +10,12 @@ module.exports = {
 	},
 	devServer: {
 		proxy: {
-			'/api': {
-				target: 'http://localhost:9090', //要请求的地址
+			'/api/text2bpmn': {
+				target: 'http://0.0.0.0:9090', //要请求的地址
 				changeOrigin: true, //如果需要跨域
 				ws: true,
 				pathRewrite: {
-					'^/api': '', //调用接口直接写‘/api/user/add’即可
+					'^/api/text2bpmn': '/bpmn', //^/api/text2bpmn 会重写为 target/bpmn
 				}
 			}
 		},

@@ -155,15 +155,19 @@
 						if (action === 'confirm') {
 							instance.confirmButtonLoading = true;
 							instance.confirmButtonText = '执行中...';
+							//在发送前把数据打包，否则后端接收不到
+							let _param = new URLSearchParams()
+							_param.append('str', instance.inputValue ? instance.inputValue : " ")
+							// _param.append("name", "cbaymax")
+							
 							axios({
 									method: 'post',
-									// url: 'http://123.207.143.93:8081/anything',
-									url: '/api/bpmn',
-									data: {
-										'str': instance.inputValue ? instance.inputValue : " "
-									},
+									// test url: 'http://123.207.143.93:8081/anything',
+									url: '/api/text2bpmn',
+									data: _param,
 								})
 								.then((res) => {
+									console.log(res);
 									_bpmnModeler.importXML(res.data)
 									instance.confirmButtonLoading = false;
 									this.$message({
@@ -190,7 +194,7 @@
 		mounted: function() {
 			this.initBpmn()
 		},
-		activated:function(){
+		activated: function() {
 			this.xmlStr = this.$store.state.BpmnXml
 			this.bpmnModeler.importXML(this.xmlStr)
 		}

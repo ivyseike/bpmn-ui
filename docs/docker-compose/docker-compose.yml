@@ -1,0 +1,30 @@
+version: '3'
+services:
+    nginx:
+        restart: always
+        image: nginx:1.16.1
+        container_name: bpmn-nginx
+        ports: 
+            - 8080:80
+        volumes: 
+            - "./nginx/dist:/usr/share/nginx/html"
+            - "./nginx/conf.d:/etc/nginx/conf.d"
+        networks: 
+            mynet:
+                aliases: 
+                    - nginx
+
+    text2bpmn:
+        restart: always
+        image: cbaymax/text2bpmn:1.0.0
+        container_name: api-text2bpmn
+        expose: 
+            - "9090"
+        networks: 
+            mynet:
+                aliases: 
+                    - text2bpmn
+networks: 
+    mynet:
+
+
