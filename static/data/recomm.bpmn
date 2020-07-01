@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sid-38422fae-e03e-43a3-bef4-bd33b32041b2" targetNamespace="http://bpmn.io/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="5.1.2">
+  <process id="Process_1" isExecutable="false">
+    <startEvent id="Event_1b0wbyk" name="开始">
+      <outgoing>Flow_156c8tc</outgoing>
+    </startEvent>
+    <task id="Activity_0b21v24" name="工作票编制">
+      <incoming>Flow_156c8tc</incoming>
+      <outgoing>Flow_0rs4vzx</outgoing>
+    </task>
+    <sequenceFlow id="Flow_156c8tc" sourceRef="Event_1b0wbyk" targetRef="Activity_0b21v24" />
+    <task id="Activity_1ivrppz" name="待签发">
+      <incoming>Flow_0rs4vzx</incoming>
+      <outgoing>Flow_0ck0v97</outgoing>
+    </task>
+    <sequenceFlow id="Flow_0rs4vzx" sourceRef="Activity_0b21v24" targetRef="Activity_1ivrppz" />
+    <task id="Activity_1cc1gze" name="待接票">
+      <incoming>Flow_0ck0v97</incoming>
+      <outgoing>Flow_0pjae63</outgoing>
+    </task>
+    <sequenceFlow id="Flow_0ck0v97" sourceRef="Activity_1ivrppz" targetRef="Activity_1cc1gze" />
+    <task id="Activity_1i9y33j" name="待终结">
+      <incoming>Flow_0pjae63</incoming>
+      <outgoing>Flow_0irhdul</outgoing>
+    </task>
+    <sequenceFlow id="Flow_0pjae63" sourceRef="Activity_1cc1gze" targetRef="Activity_1i9y33j" />
+    <endEvent id="Event_02y3r4k" name="结束">
+      <incoming>Flow_0irhdul</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_0irhdul" sourceRef="Activity_1i9y33j" targetRef="Event_02y3r4k" />
+  </process>
+  <bpmndi:BPMNDiagram id="BpmnDiagram_1">
+    <bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Event_1b0wbyk_di" bpmnElement="Event_1b0wbyk">
+        <dc:Bounds x="172" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="179" y="205" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0b21v24_di" bpmnElement="Activity_0b21v24">
+        <dc:Bounds x="260" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_156c8tc_di" bpmnElement="Flow_156c8tc">
+        <di:waypoint x="208" y="180" />
+        <di:waypoint x="260" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1ivrppz_di" bpmnElement="Activity_1ivrppz">
+        <dc:Bounds x="420" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0rs4vzx_di" bpmnElement="Flow_0rs4vzx">
+        <di:waypoint x="360" y="180" />
+        <di:waypoint x="420" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1cc1gze_di" bpmnElement="Activity_1cc1gze">
+        <dc:Bounds x="580" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ck0v97_di" bpmnElement="Flow_0ck0v97">
+        <di:waypoint x="520" y="180" />
+        <di:waypoint x="580" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1i9y33j_di" bpmnElement="Activity_1i9y33j">
+        <dc:Bounds x="740" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0pjae63_di" bpmnElement="Flow_0pjae63">
+        <di:waypoint x="680" y="180" />
+        <di:waypoint x="740" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_02y3r4k_di" bpmnElement="Event_02y3r4k">
+        <dc:Bounds x="902" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="909" y="205" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0irhdul_di" bpmnElement="Flow_0irhdul">
+        <di:waypoint x="840" y="180" />
+        <di:waypoint x="902" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

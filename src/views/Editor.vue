@@ -39,9 +39,20 @@
           <el-button type="primary" size="medium" @click="resetBPMN">重置</el-button>
           <el-button type="primary" size="medium" @click="checkBPMN">检查</el-button>
           <el-button type="primary" size="medium" @click="saveBPMN">保存</el-button>
+          <el-button type="primary" size="medium" @click="recoBPMN">结构推荐</el-button>
+          <el-button type="primary" size="medium" @click="showWindow">语义推荐</el-button>
+          <el-button type="primary" size="medium" @click="showUploadWindow">上传文件</el-button>
         </el-button-group>
       </el-header>
       <el-main>
+
+        <div v-show="isShowSearchWindow">
+    <Search></Search>
+  </div>
+  <div v-show="isShowUploadWindow">
+    <FileUpload></FileUpload>
+    </div>
+
         <div class="bpmnContainer">
           <div id="BpmnCanvas" ref="canvas"></div>
           <div id="BpmnProperties" ref="canvas"></div>
@@ -58,14 +69,17 @@ import BpmnModeler from "bpmn-js/lib/Modeler";
 //右侧元素属性菜单
 import propertiesPanelModule from 'bpmn-js-properties-panel'
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'
+import Search from  '../components/Search'
+import FileUpload from '../components/FileUpload'
 //文件导入器
 import fileLoader from "../components/Editor/fileLoader.vue";
+import {request} from '../network/request'
 //验证工具
 import lintModule from "bpmn-js-bpmnlint";
 import bpmnlintConfig from "../bpmn/lint/.bpmnlintrc";
 //空白Bpmn模板
 import BlankStr from "../bpmn/samples/blank.js";
-
+import  qs from 'qs';
 export default {
   name: "Editor",
   data: function() {
@@ -73,14 +87,63 @@ export default {
       xmlStr: this.$store.state.BpmnXml,
       isCollapse: false,
       bpmnModeler: null,
-      container: null
+      container: null,
+      isShowSearchWindow:false,
+      isShowUploadWindow:false
     };
   },
   components: {
-    fileLoader: fileLoader
+    fileLoader: fileLoader,
+    Search,FileUpload
   },
 
   methods: {
+
+    showUploadWindow(){
+  this.isShowUploadWindow = !this.isShowUploadWindow
+  this.isShowSearchWindow = false
+},
+showSearch(){
+  this.isShowSearchWindow = !this.isShowSearchWindow
+  this.isShowUploadWindow = false
+},
+     showWindow() {
+       //const axios = this.$axios;
+          //axios.defaults.withCredentials = true
+        this.$prompt('', '请输入您的需求:', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            closeOnClickModal: false,
+            showInput: true,
+            inputPlaceholder: "请输入信息",
+            inputType: "textarea"
+        }).then(({value}) => {
+            this.$message({
+                type: 'success',
+                message: '你的输入是: ' + (value == null ? "" : value)
+            })
+            //发送数据
+            request({
+              
+                url: "/recommendation/RecommSemantics",
+                method: "get",
+                params: {
+                    message: value
+                }
+            }).then(res => {
+                //console.log(res.data)
+                this.xmlStr = res.data;
+                this.bpmnModeler.importXML(this.xmlStr);
+            }).catch(err => {
+                console.log("发送失败")
+            })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '还没想好？'
+            });
+        })
+    },
     // 初始化函数
     initBpmn: function() {
       this.bpmnModeler = new BpmnModeler({
@@ -159,17 +222,88 @@ export default {
     },
 
     //保存
-    saveBPMN: function() {
-      this.bpmnModeler.saveXML(
-        {
-          format: true
-        },
-        (err, xml) => {
-          this.xmlStr = xml;
-          this.$store.dispatch("editXml", this.xmlStr);
-        }
-      );
-    },
+          saveBPMN: function() {            
+            
+            this.bpmnModeler.saveXML(
+              {
+                format: true
+              },
+              (err, xml) => {
+                this.xmlStr = xml;
+                this.$store.dispatch("editXml", this.xmlStr);
+                
+                this.$prompt('', '请输入文件名:', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            closeOnClickModal: false,
+            showInput: true,
+            inputPlaceholder: "请输入信息",
+            inputType: "textarea"
+        }).then(({value}) => {            
+            //发送数据
+            request({
+              
+                url: "/recommendation/saveBPMN",
+                method: "post",
+                /*params: {
+                    name:value,
+                   //message : xml
+                },*/
+                data:  qs.stringify({name:value,message :xml}),
+                
+                
+            }).then(res => {
+                console.log(res.data)
+                if(res.data==="0"){
+                  this.$message({
+                      type: 'success',
+                      message: '保存成功'
+            });
+                }
+                //this.xmlStr = res.data;
+                //this.bpmnModeler.importXML(this.xmlStr);
+            }).catch(err => {
+                console.log("发送失败")
+            })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '还没想好？'
+            });
+        })
+
+              }
+            );
+          },
+
+     //推荐     
+     
+        recoBPMN: function() {         
+          const axios = this.$axios;
+          axios.defaults.withCredentials = true
+          var strXML;
+          //Vue.prototype.$qs = qs         
+          this.bpmnModeler.saveXML(
+              {
+                format: true
+              },
+              (err, xml) => {
+                strXML= xml                      
+              }
+            );        
+       axios({
+              method: "post",              
+              url: "http://localhost:8090/recommendation/RecommStructure",              
+              data: qs.stringify({lxccontent:strXML})              
+            })
+              .then(res => {
+                //console.log(content);
+                this.xmlStr = res.data;
+                this.bpmnModeler.importXML(this.xmlStr);
+               
+               
+              })
+         },
 
     //检查
     checkBPMN: function() {
