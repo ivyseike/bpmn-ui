@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpm="http://sotowerbpm.com/extension" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" expressionLanguage="http://www.w3.org/1999/XPath" id="Empty Process" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <itemDefinition bpmDescription="String" bpmTypeClass="primitive" id="4B78C63A2595030F240A7275E9F43275" isCollection="false" itemKind="Information" structureRef="java.lang.String"/>
+  <process description="" id="DFDCS" isClosed="false" isExcutable="true" name="DFDCS" processType="Private">
+    <property description="" id="BUSINESSID" itemSubjectRef="4B78C63A2595030F240A7275E9F43275" name="BUSINESSID">
+      <bpm:defaultValue/>
+    </property>
+    <startEvent desc="" id="NoneStartEvent" isInterrupting="true" name="开始" parallelMultiple="true">
+      <outgoing>NoneStartEvent-a_bz</outgoing>
+      <bpm:startExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id=""/>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>ignore</bpm:exceptionStrategy>
+            <bpm:destinationActivity/>
+            <bpm:exceptionApplication/>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+        </bpm:form>
+        <bpm:isDefault>true</bpm:isDefault>
+      </bpm:startExtension>
+    </startEvent>
+    <endEvent desc="" id="NoneEndEvent" name="结束">
+      <incoming>c_cd-NoneEndEvent</incoming>
+      <incoming>InclusiveGateway-NoneEndEvent</incoming>
+      <bpm:endExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id=""/>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>ignore</bpm:exceptionStrategy>
+            <bpm:destinationActivity/>
+            <bpm:exceptionApplication/>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+      </bpm:endExtension>
+    </endEvent>
+    <userTask completionQuantity="NaN" default="" desc="" id="a_bz" implementation="##unspecified" isForCompensation="false" name="编制" startQuantity="NaN">
+      <incoming>NoneStartEvent-a_bz</incoming>
+      <outgoing>a_bz-b_sh</outgoing>
+      <performer id="" name="">
+        <resourceRef/>
+        <bpm:performerExtension>
+          <bpm:participantType>process_starter</bpm:participantType>
+          <bpm:specialPath/>
+          <bpm:specialActivityID/>
+          <bpm:organization>
+            <bpm:isAllowAppointParticipants>false</bpm:isAllowAppointParticipants>
+          </bpm:organization>
+          <bpm:participantRule>
+            <bpm:resourceType>participant_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:participantRule>
+        </bpm:performerExtension>
+      </performer>
+      <bpm:userTaskExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id="">
+            <inputSet id=""/>
+            <outputSet id=""/>
+          </ioSpecification>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>throwout</bpm:exceptionStrategy>
+            <bpm:destinationActivity/>
+            <bpm:exceptionApplication/>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:allowAgent>true</bpm:allowAgent>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+        </bpm:form>
+        <bpm:timeLimit>
+          <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+          <bpm:calendarSet>
+            <bpm:initType>appoint</bpm:initType>
+            <bpm:calendarPath/>
+            <bpm:calendarInfo>
+              <bpm:resourceType>business_calendar</bpm:resourceType>
+              <bpm:resourceID>default</bpm:resourceID>
+              <bpm:resourceName>默认日历</bpm:resourceName>
+            </bpm:calendarInfo>
+          </bpm:calendarSet>
+          <bpm:timeLimitInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+            <bpm:day>0</bpm:day>
+            <bpm:hour>0</bpm:hour>
+            <bpm:minute>0</bpm:minute>
+            <bpm:relevantData/>
+            <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+          </bpm:timeLimitInfo>
+          <bpm:remindInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+            <bpm:day1>0</bpm:day1>
+            <bpm:hour1>0</bpm:hour1>
+            <bpm:minute1>0</bpm:minute1>
+            <bpm:remindRelevantData/>
+            <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+          </bpm:remindInfo>
+        </bpm:timeLimit>
+        <bpm:freeFlowRule>
+          <bpm:isFreeActivity>false</bpm:isFreeActivity>
+          <bpm:isOnlyLimitedManualActivity>false</bpm:isOnlyLimitedManualActivity>
+          <bpm:freeRangeStrategy>freeWithinProcess</bpm:freeRangeStrategy>
+        </bpm:freeFlowRule>
+      </bpm:userTaskExtension>
+      <rendering id="">
+        <bpm:renderingExtension>
+          <bpm:renderingType>manual_task</bpm:renderingType>
+          <bpm:renderingUrl/>
+          <bpm:renderingResource>
+            <bpm:resourceType>manual_task</bpm:resourceType>
+            <bpm:resourceID>8f9e047a13904bb697aca006c5f4eb3f</bpm:resourceID>
+            <bpm:resourceName>部门经理审批(领域业务目录/PMS2.0/test)</bpm:resourceName>
+          </bpm:renderingResource>
+        </bpm:renderingExtension>
+      </rendering>
+    </userTask>
+    <userTask completionQuantity="NaN" default="" desc="" id="b_sh" implementation="##unspecified" isForCompensation="false" name="审核" startQuantity="NaN">
+      <incoming>a_bz-b_sh</incoming>
+      <outgoing>b_sh-InclusiveGateway</outgoing>
+      <performer id="" name="">
+        <resourceRef/>
+        <bpm:performerExtension>
+          <bpm:participantType>organization_list</bpm:participantType>
+          <bpm:specialPath/>
+          <bpm:specialActivityID/>
+          <bpm:organization>
+            <bpm:participant>
+              <bpm:id>402881883f73d3d0013f7e3eeccb016d</bpm:id>
+              <bpm:name>南京市电力公司</bpm:name>
+              <bpm:type>04</bpm:type>
+            </bpm:participant>
+            <bpm:isAllowAppointParticipants>false</bpm:isAllowAppointParticipants>
+          </bpm:organization>
+          <bpm:participantRule>
+            <bpm:resourceType>participant_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:participantRule>
+        </bpm:performerExtension>
+      </performer>
+      <multiInstanceLoopCharacteristics behavior="All" id="" isSequential="false" noneBehaviorEventRef="null" oneBehaviorEventRef="null">
+        <bpm:multiWorkItem>
+          <bpm:workitemNumStrategy>participant_number</bpm:workitemNumStrategy>
+          <bpm:finishRule>all</bpm:finishRule>
+          <bpm:finishRequiredPercent>0</bpm:finishRequiredPercent>
+          <bpm:finishRquiredNum>0</bpm:finishRquiredNum>
+          <bpm:isAutoCancel>false</bpm:isAutoCancel>
+        </bpm:multiWorkItem>
+      </multiInstanceLoopCharacteristics>
+      <bpm:userTaskExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id="">
+            <inputSet id=""/>
+            <outputSet id=""/>
+          </ioSpecification>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>throwout</bpm:exceptionStrategy>
+            <bpm:destinationActivity/>
+            <bpm:exceptionApplication/>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:allowAgent>true</bpm:allowAgent>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+        </bpm:form>
+        <bpm:timeLimit>
+          <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+          <bpm:calendarSet>
+            <bpm:initType>appoint</bpm:initType>
+            <bpm:calendarPath/>
+            <bpm:calendarInfo>
+              <bpm:resourceType>business_calendar</bpm:resourceType>
+              <bpm:resourceID>default</bpm:resourceID>
+              <bpm:resourceName>默认日历</bpm:resourceName>
+            </bpm:calendarInfo>
+          </bpm:calendarSet>
+          <bpm:timeLimitInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+            <bpm:day>0</bpm:day>
+            <bpm:hour>0</bpm:hour>
+            <bpm:minute>0</bpm:minute>
+            <bpm:relevantData/>
+            <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+          </bpm:timeLimitInfo>
+          <bpm:remindInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+            <bpm:day1>0</bpm:day1>
+            <bpm:hour1>0</bpm:hour1>
+            <bpm:minute1>0</bpm:minute1>
+            <bpm:remindRelevantData/>
+            <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+          </bpm:remindInfo>
+        </bpm:timeLimit>
+        <bpm:freeFlowRule>
+          <bpm:isFreeActivity>false</bpm:isFreeActivity>
+          <bpm:isOnlyLimitedManualActivity>false</bpm:isOnlyLimitedManualActivity>
+          <bpm:freeRangeStrategy>freeWithinProcess</bpm:freeRangeStrategy>
+        </bpm:freeFlowRule>
+      </bpm:userTaskExtension>
+      <rendering id="">
+        <bpm:renderingExtension>
+          <bpm:renderingType>manual_task</bpm:renderingType>
+          <bpm:renderingUrl/>
+          <bpm:renderingResource>
+            <bpm:resourceType>manual_task</bpm:resourceType>
+            <bpm:resourceID>8f9e047a13904bb697aca006c5f4eb3f</bpm:resourceID>
+            <bpm:resourceName>部门经理审批(领域业务目录/PMS2.0/test)</bpm:resourceName>
+          </bpm:renderingResource>
+        </bpm:renderingExtension>
+      </rendering>
+    </userTask>
+    <userTask completionQuantity="NaN" default="" desc="" id="c_cd" implementation="##unspecified" isForCompensation="false" name="存档" startQuantity="NaN">
+      <incoming>InclusiveGateway-c_cd</incoming>
+      <outgoing>c_cd-NoneEndEvent</outgoing>
+      <performer id="" name="">
+        <resourceRef/>
+        <bpm:performerExtension>
+          <bpm:participantType>organization_list</bpm:participantType>
+          <bpm:specialPath/>
+          <bpm:specialActivityID/>
+          <bpm:organization>
+            <bpm:participant>
+              <bpm:id>402881883f73d3d0013f7e3eeccb016d</bpm:id>
+              <bpm:name>南京市电力公司</bpm:name>
+              <bpm:type>04</bpm:type>
+            </bpm:participant>
+            <bpm:isAllowAppointParticipants>false</bpm:isAllowAppointParticipants>
+          </bpm:organization>
+          <bpm:participantRule>
+            <bpm:resourceType>participant_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:participantRule>
+        </bpm:performerExtension>
+      </performer>
+      <bpm:userTaskExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id="">
+            <inputSet id=""/>
+            <outputSet id=""/>
+          </ioSpecification>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef/>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>throwout</bpm:exceptionStrategy>
+            <bpm:destinationActivity/>
+            <bpm:exceptionApplication/>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:allowAgent>true</bpm:allowAgent>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+        </bpm:form>
+        <bpm:timeLimit>
+          <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+          <bpm:calendarSet>
+            <bpm:initType>appoint</bpm:initType>
+            <bpm:calendarPath/>
+            <bpm:calendarInfo>
+              <bpm:resourceType>business_calendar</bpm:resourceType>
+              <bpm:resourceID>default</bpm:resourceID>
+              <bpm:resourceName>默认日历</bpm:resourceName>
+            </bpm:calendarInfo>
+          </bpm:calendarSet>
+          <bpm:timeLimitInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+            <bpm:day>0</bpm:day>
+            <bpm:hour>0</bpm:hour>
+            <bpm:minute>0</bpm:minute>
+            <bpm:relevantData/>
+            <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+          </bpm:timeLimitInfo>
+          <bpm:remindInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+            <bpm:day1>0</bpm:day1>
+            <bpm:hour1>0</bpm:hour1>
+            <bpm:minute1>0</bpm:minute1>
+            <bpm:remindRelevantData/>
+            <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+          </bpm:remindInfo>
+        </bpm:timeLimit>
+        <bpm:freeFlowRule>
+          <bpm:isFreeActivity>false</bpm:isFreeActivity>
+          <bpm:isOnlyLimitedManualActivity>false</bpm:isOnlyLimitedManualActivity>
+          <bpm:freeRangeStrategy>freeWithinProcess</bpm:freeRangeStrategy>
+        </bpm:freeFlowRule>
+      </bpm:userTaskExtension>
+      <rendering id="">
+        <bpm:renderingExtension>
+          <bpm:renderingType>manual_task</bpm:renderingType>
+          <bpm:renderingUrl/>
+          <bpm:renderingResource>
+            <bpm:resourceType>manual_task</bpm:resourceType>
+            <bpm:resourceID>8f9e047a13904bb697aca006c5f4eb3f</bpm:resourceID>
+            <bpm:resourceName>部门经理审批(领域业务目录/PMS2.0/test)</bpm:resourceName>
+          </bpm:renderingResource>
+        </bpm:renderingExtension>
+      </rendering>
+    </userTask>
+    <inclusiveGateway default="" desc="" gatewayDirection="Unspecified" id="InclusiveGateway" name="多路网关">
+      <incoming>b_sh-InclusiveGateway</incoming>
+      <outgoing>InclusiveGateway-c_cd</outgoing>
+      <outgoing>InclusiveGateway-NoneEndEvent</outgoing>
+      <bpm:gatewayExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID/>
+            <bpm:resourceName/>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification/>
+          <dataInputAssociation/>
+          <dataOutputAssociation/>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>throwout</bpm:exceptionStrategy>
+            <bpm:destinationActivity/>
+            <bpm:exceptionApplication/>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+      </bpm:gatewayExtension>
+    </inclusiveGateway>
+    <sequenceFlow id="NoneStartEvent-a_bz" isImmediate="false" name="" sourceRef="NoneStartEvent" targetRef="a_bz"/>
+    <sequenceFlow id="a_bz-b_sh" isImmediate="false" name="" sourceRef="a_bz" targetRef="b_sh"/>
+    <sequenceFlow id="InclusiveGateway-c_cd" isImmediate="false" name="" sourceRef="InclusiveGateway" targetRef="c_cd"/>
+    <sequenceFlow id="c_cd-NoneEndEvent" isImmediate="false" name="" sourceRef="c_cd" targetRef="NoneEndEvent"/>
+    <sequenceFlow id="InclusiveGateway-NoneEndEvent" isImmediate="false" name="" sourceRef="InclusiveGateway" targetRef="NoneEndEvent"/>
+    <sequenceFlow id="b_sh-InclusiveGateway" isImmediate="false" name="" sourceRef="b_sh" targetRef="InclusiveGateway"/>
+    <bpm:processExtension>
+      <bpm:specifyProcessStarter>false</bpm:specifyProcessStarter>
+      <bpm:priority>10</bpm:priority>
+      <bpm:longProcess>true</bpm:longProcess>
+      <bpm:businessIDPath>BUSINESSID</bpm:businessIDPath>
+      <bpm:processStarter/>
+      <bpm:timeLimit>
+        <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+        <bpm:calendarSet>
+          <bpm:initType>appoint</bpm:initType>
+          <bpm:calendarPath/>
+          <bpm:calendarInfo>
+            <bpm:resourceType>business_calendar</bpm:resourceType>
+            <bpm:resourceID>default</bpm:resourceID>
+            <bpm:resourceName>默认日历</bpm:resourceName>
+          </bpm:calendarInfo>
+        </bpm:calendarSet>
+        <bpm:timeLimitInfo>
+          <bpm:remindType>email</bpm:remindType>
+          <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+          <bpm:day>0</bpm:day>
+          <bpm:hour>0</bpm:hour>
+          <bpm:minute>0</bpm:minute>
+          <bpm:relevantData/>
+          <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+        </bpm:timeLimitInfo>
+        <bpm:remindInfo>
+          <bpm:remindType>email</bpm:remindType>
+          <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+          <bpm:day1>0</bpm:day1>
+          <bpm:hour1>0</bpm:hour1>
+          <bpm:minute1>0</bpm:minute1>
+          <bpm:remindRelevantData/>
+          <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+        </bpm:remindInfo>
+      </bpm:timeLimit>
+      <bpm:triggerEvents/>
+      <bpm:processCalendar>
+        <bpm:resourceType>business_calendar</bpm:resourceType>
+        <bpm:resourceID>default</bpm:resourceID>
+        <bpm:resourceName>默认日历</bpm:resourceName>
+      </bpm:processCalendar>
+      <bpm:extendNodes/>
+      <bpm:processEndParameter>
+        <dataInputAssociation id="" name="">
+          <bpm:targetRef/>
+        </dataInputAssociation>
+        <inputSet id=""/>
+      </bpm:processEndParameter>
+    </bpm:processExtension>
+  </process>
+  <bpmndi:BPMNDiagram name="DFDCS" resolution="72">
+    <bpmndi:BPMNPlane bpmnElement="DFDCS">
+      <bpmndi:BPMNShape bpmnElement="NoneStartEvent" isExpand="false" isHorizontal="false">
+        <dc:Bounds height="30" width="30" x="92.5" y="162.85"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="NoneEndEvent" isExpand="false" isHorizontal="false">
+        <dc:Bounds height="30" width="30" x="618" y="162.85"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="a_bz" isExpand="false" isHorizontal="false">
+        <dc:Bounds height="65" width="92" x="166.5" y="145.35"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="b_sh" isExpand="false" isHorizontal="false">
+        <dc:Bounds height="65" width="92" x="285.5" y="145.35"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="c_cd" isExpand="false" isHorizontal="false">
+        <dc:Bounds height="65" width="92" x="492" y="242"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="InclusiveGateway" isExpand="false" isHorizontal="false">
+        <dc:Bounds height="30" width="30" x="436.5" y="162.85"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="NoneStartEvent-a_bz" displayMode="FLINE">
+        <di:waypoint x="122.5" y="177.85"/>
+        <di:waypoint x="166.5" y="177.85"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="a_bz-b_sh" displayMode="FLINE">
+        <di:waypoint x="258.5" y="177.85"/>
+        <di:waypoint x="285.5" y="177.85"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="InclusiveGateway-c_cd" displayMode="FLINE">
+        <di:waypoint x="464.9" y="192.85"/>
+        <di:waypoint x="508.9" y="242"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="c_cd-NoneEndEvent" displayMode="FLINE">
+        <di:waypoint x="569.9" y="242"/>
+        <di:waypoint x="618.2" y="192.85"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="InclusiveGateway-NoneEndEvent" displayMode="FLINE">
+        <di:waypoint x="466.5" y="177.85"/>
+        <di:waypoint x="618" y="177.85"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="b_sh-InclusiveGateway" displayMode="FLINE">
+        <di:waypoint x="377.5" y="177.85"/>
+        <di:waypoint x="436.5" y="177.85"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpm:definitionExtension>
+    <bpm:author>soaadmin</bpm:author>
+    <bpm:department/>
+    <bpm:resource/>
+  </bpm:definitionExtension>
+</definitions>

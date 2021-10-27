@@ -1,0 +1,622 @@
+<definitions id="Empty Process" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.omg.org/bpmn20" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bpm="http://sotowerbpm.com/extension">
+  <itemDefinition id="C7CE16DDB69AB9314CAA5CF9C29AFE1D" isCollection="false" itemKind="Information" structureRef="java.lang.String" bpmTypeClass="primitive" bpmDescription="String"/>
+  <itemDefinition id="786FCF802DB3156265ED33E9D4D6BD1B" isCollection="false" itemKind="Information" structureRef="java.lang.String" bpmTypeClass="primitive" bpmDescription="String"/>
+  <itemDefinition id="2BE08ADCDDB73E3A6DDC33E9A7AFF653" isCollection="false" itemKind="Information" structureRef="java.lang.String" bpmTypeClass="primitive" bpmDescription="String"/>
+  <itemDefinition id="BA9F38818F05D1DBE19E33E982E0A28D" isCollection="false" itemKind="Information" structureRef="java.lang.String" bpmTypeClass="primitive" bpmDescription="String"/>
+  <itemDefinition id="A278B4911047DD22664133E8E4AEBC05" isCollection="false" itemKind="Information" structureRef="java.lang.String" bpmTypeClass="primitive" bpmDescription="String"/>
+  <itemDefinition id="CD75423DD4D47EC6A00933E818B4783A" isCollection="false" itemKind="Information" structureRef="java.lang.String" bpmTypeClass="primitive" bpmDescription="String"/>
+  <process id="jsjdndjhlc" name="技术监督年度计划流程" description="技术监督年度计划流程" isClosed="false" processType="Private" isExcutable="true" abc="true">
+    <property id="BUSINESSID" name="BUSINESSID" itemSubjectRef="CD75423DD4D47EC6A00933E818B4783A" description="BUSINESSID">
+      <bpm:defaultValue></bpm:defaultValue>
+    </property>
+    <property id="shjg" name="审核结果" itemSubjectRef="A278B4911047DD22664133E8E4AEBC05" description="审核结果">
+      <bpm:defaultValue></bpm:defaultValue>
+    </property>
+    <property id="shyj" name="审核意见" itemSubjectRef="BA9F38818F05D1DBE19E33E982E0A28D" description="审核意见">
+      <bpm:defaultValue></bpm:defaultValue>
+    </property>
+    <property id="shsj" name="审核时间" itemSubjectRef="2BE08ADCDDB73E3A6DDC33E9A7AFF653" description="审核时间">
+      <bpm:defaultValue></bpm:defaultValue>
+    </property>
+    <property id="shr" name="审核人" itemSubjectRef="786FCF802DB3156265ED33E9D4D6BD1B" description="审核人">
+      <bpm:defaultValue></bpm:defaultValue>
+    </property>
+    <property id="jsr" name="接收人" itemSubjectRef="C7CE16DDB69AB9314CAA5CF9C29AFE1D" description="接收人">
+      <bpm:defaultValue></bpm:defaultValue>
+    </property>
+    <startEvent id="NoneStartEvent" name="开始" desc="" parallelMultiple="true" isInterrupting="true">
+      <outgoing>NoneStartEvent-ndjhbz</outgoing>
+      <dataOutputAssociation id="" name="">
+        <bpm:targetRef></bpm:targetRef>
+      </dataOutputAssociation>
+      <outputSet id=""/>
+      <bpm:startExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id=""/>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>ignore</bpm:exceptionStrategy>
+            <bpm:destinationActivity></bpm:destinationActivity>
+            <bpm:exceptionApplication></bpm:exceptionApplication>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+          <bpm:formFields>
+            <bpm:formField>
+              <bpm:name>审核意见</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shyj</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+            <bpm:formField>
+              <bpm:name>审核结果</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shjg</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+            <bpm:formField>
+              <bpm:name>审核时间</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shsj</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+            <bpm:formField>
+              <bpm:name>审核人</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shr</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+          </bpm:formFields>
+        </bpm:form>
+        <bpm:isDefault>true</bpm:isDefault>
+      </bpm:startExtension>
+    </startEvent>
+    <endEvent id="NoneEndEvent" name="结束" desc="">
+      <incoming>UserTask-NoneEndEvent</incoming>
+      <bpm:endExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id=""/>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>ignore</bpm:exceptionStrategy>
+            <bpm:destinationActivity></bpm:destinationActivity>
+            <bpm:exceptionApplication></bpm:exceptionApplication>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+      </bpm:endExtension>
+    </endEvent>
+    <userTask id="UserTask" name="计划审核" desc="" isForCompensation="false" startQuantity="NaN" completionQuantity="NaN" default="" implementation="##unspecified">
+      <incoming>ndjhbz-UserTask</incoming>
+      <outgoing>UserTask-NoneEndEvent</outgoing>
+      <performer id="" name="">
+        <resourceRef/>
+        <bpm:performerExtension>
+          <bpm:participantType>organization_list</bpm:participantType>
+          <bpm:specialPath>jsr</bpm:specialPath>
+          <bpm:specialActivityID></bpm:specialActivityID>
+          <bpm:organization>
+            <bpm:participant>
+              <bpm:id>8a3983754c34f0cc014c4a87b98303cb</bpm:id>
+              <bpm:name>重庆_市公司业务角色</bpm:name>
+              <bpm:type>05</bpm:type>
+            </bpm:participant>
+            <bpm:participant>
+              <bpm:id>8a3983754c34f0cc014c4fe1fda9174a</bpm:id>
+              <bpm:name>重庆_地市公司业务角色</bpm:name>
+              <bpm:type>05</bpm:type>
+            </bpm:participant>
+            <bpm:participant>
+              <bpm:id>8a3983cd614d359b016251b396182d6f</bpm:id>
+              <bpm:name>省公司技术监督办公室成员</bpm:name>
+              <bpm:type>05</bpm:type>
+            </bpm:participant>
+            <bpm:participant>
+              <bpm:id>8a3983cd614d359b016251b8ac8b2dc8</bpm:id>
+              <bpm:name>地市公司技术监督专责</bpm:name>
+              <bpm:type>05</bpm:type>
+            </bpm:participant>
+            <bpm:isAllowAppointParticipants>true</bpm:isAllowAppointParticipants>
+          </bpm:organization>
+          <bpm:participantRule>
+            <bpm:resourceType>participant_rule</bpm:resourceType>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+          </bpm:participantRule>
+        </bpm:performerExtension>
+      </performer>
+      <bpm:userTaskExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id="">
+            <inputSet id=""/>
+            <outputSet id=""/>
+          </ioSpecification>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>throwout</bpm:exceptionStrategy>
+            <bpm:destinationActivity></bpm:destinationActivity>
+            <bpm:exceptionApplication></bpm:exceptionApplication>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:allowAgent>true</bpm:allowAgent>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+          <bpm:formFields>
+            <bpm:formField>
+              <bpm:name>审核意见</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shyj</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+            <bpm:formField>
+              <bpm:name>审核结果</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shjg</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+            <bpm:formField>
+              <bpm:name>审核时间</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shsj</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+            <bpm:formField>
+              <bpm:name>审核人</bpm:name>
+              <bpm:fieldType>relevant_data</bpm:fieldType>
+              <bpm:dataType>textInput</bpm:dataType>
+              <bpm:required>false</bpm:required>
+              <bpm:defaultValue></bpm:defaultValue>
+              <bpm:variableName>
+                <bpm:resourceID></bpm:resourceID>
+                <bpm:resourceName></bpm:resourceName>
+                <bpm:resourceType>business_variable</bpm:resourceType>
+              </bpm:variableName>
+              <bpm:path>shr</bpm:path>
+              <bpm:accessType>read_write</bpm:accessType>
+              <bpm:fieldAttribute></bpm:fieldAttribute>
+              <bpm:description></bpm:description>
+            </bpm:formField>
+          </bpm:formFields>
+        </bpm:form>
+        <bpm:timeLimit>
+          <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+          <bpm:calendarSet>
+            <bpm:initType>appoint</bpm:initType>
+            <bpm:calendarPath></bpm:calendarPath>
+            <bpm:calendarInfo>
+              <bpm:resourceType>business_calendar</bpm:resourceType>
+              <bpm:resourceID>default</bpm:resourceID>
+              <bpm:resourceName>默认日历</bpm:resourceName>
+            </bpm:calendarInfo>
+          </bpm:calendarSet>
+          <bpm:timeLimitInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+            <bpm:day>0</bpm:day>
+            <bpm:hour>0</bpm:hour>
+            <bpm:minute>0</bpm:minute>
+            <bpm:relevantData></bpm:relevantData>
+            <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+          </bpm:timeLimitInfo>
+          <bpm:remindInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+            <bpm:day1>0</bpm:day1>
+            <bpm:hour1>0</bpm:hour1>
+            <bpm:minute1>0</bpm:minute1>
+            <bpm:remindRelevantData></bpm:remindRelevantData>
+            <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+          </bpm:remindInfo>
+        </bpm:timeLimit>
+        <bpm:freeFlowRule>
+          <bpm:isFreeActivity>false</bpm:isFreeActivity>
+          <bpm:isOnlyLimitedManualActivity>false</bpm:isOnlyLimitedManualActivity>
+          <bpm:freeRangeStrategy>freeWithinProcess</bpm:freeRangeStrategy>
+        </bpm:freeFlowRule>
+      </bpm:userTaskExtension>
+      <rendering id="">
+        <bpm:renderingExtension>
+          <bpm:renderingType>manual_task</bpm:renderingType>
+          <bpm:renderingUrl></bpm:renderingUrl>
+          <bpm:renderingResource>
+            <bpm:resourceType>manual_task</bpm:resourceType>
+            <bpm:resourceID>8254c51a4f53446bae3c8cc9602ccbf6</bpm:resourceID>
+            <bpm:resourceName>技术监督审核(领域业务目录/PMS2.0/技术监督/技术监督年度计划)</bpm:resourceName>
+          </bpm:renderingResource>
+        </bpm:renderingExtension>
+      </rendering>
+    </userTask>
+    <userTask id="ndjhbz" name="计划编制" desc="" isForCompensation="false" startQuantity="NaN" completionQuantity="NaN" default="" implementation="##unspecified">
+      <incoming>NoneStartEvent-ndjhbz</incoming>
+      <outgoing>ndjhbz-UserTask</outgoing>
+      <performer id="" name="">
+        <resourceRef/>
+        <bpm:performerExtension>
+          <bpm:participantType>process_starter</bpm:participantType>
+          <bpm:specialPath></bpm:specialPath>
+          <bpm:specialActivityID></bpm:specialActivityID>
+          <bpm:organization>
+            <bpm:participant>
+              <bpm:id>402881883fac340c013fac8e058c0004</bpm:id>
+              <bpm:name>技术监督管理员</bpm:name>
+              <bpm:type>03</bpm:type>
+            </bpm:participant>
+            <bpm:participant>
+              <bpm:id>402881883fcc5752013ff43c93330d23</bpm:id>
+              <bpm:name>zhyw</bpm:name>
+              <bpm:type>03</bpm:type>
+            </bpm:participant>
+            <bpm:participant>
+              <bpm:id>1</bpm:id>
+              <bpm:name>soaadmin</bpm:name>
+              <bpm:type>03</bpm:type>
+            </bpm:participant>
+            <bpm:isAllowAppointParticipants>true</bpm:isAllowAppointParticipants>
+          </bpm:organization>
+          <bpm:participantRule>
+            <bpm:resourceType>participant_rule</bpm:resourceType>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+          </bpm:participantRule>
+        </bpm:performerExtension>
+      </performer>
+      <bpm:userTaskExtension>
+        <bpm:priority>60</bpm:priority>
+        <bpm:extendNodes/>
+        <bpm:completeMode>auto</bpm:completeMode>
+        <bpm:useSimulation>false</bpm:useSimulation>
+        <bpm:activateRule>
+          <bpm:activateRuleType>directRunning</bpm:activateRuleType>
+          <bpm:businessRule>
+            <bpm:resourceType>boolean_rule</bpm:resourceType>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+          </bpm:businessRule>
+        </bpm:activateRule>
+        <bpm:compensateApplication>
+          <bpm:actionType>business_operation</bpm:actionType>
+          <bpm:invokeMode>local</bpm:invokeMode>
+          <bpm:transactionMode>join</bpm:transactionMode>
+          <bpm:businessOperation>
+            <bpm:resourceID></bpm:resourceID>
+            <bpm:resourceName></bpm:resourceName>
+            <bpm:resourceType>business_operation</bpm:resourceType>
+          </bpm:businessOperation>
+          <ioSpecification id="">
+            <inputSet id=""/>
+            <outputSet id=""/>
+          </ioSpecification>
+          <dataInputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataInputAssociation>
+          <dataOutputAssociation id="" name="">
+            <bpm:targetRef></bpm:targetRef>
+          </dataOutputAssociation>
+          <bpm:exceptionStrategy>
+            <bpm:exceptionStrategy>throwout</bpm:exceptionStrategy>
+            <bpm:destinationActivity></bpm:destinationActivity>
+            <bpm:exceptionApplication></bpm:exceptionApplication>
+          </bpm:exceptionStrategy>
+        </bpm:compensateApplication>
+        <bpm:simulationAssignment/>
+        <bpm:allowAgent>true</bpm:allowAgent>
+        <bpm:form>
+          <bpm:type>defaultForm</bpm:type>
+        </bpm:form>
+        <bpm:timeLimit>
+          <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+          <bpm:calendarSet>
+            <bpm:initType>appoint</bpm:initType>
+            <bpm:calendarPath></bpm:calendarPath>
+            <bpm:calendarInfo>
+              <bpm:resourceType>business_calendar</bpm:resourceType>
+              <bpm:resourceID>default</bpm:resourceID>
+              <bpm:resourceName>默认日历</bpm:resourceName>
+            </bpm:calendarInfo>
+          </bpm:calendarSet>
+          <bpm:timeLimitInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+            <bpm:day>0</bpm:day>
+            <bpm:hour>0</bpm:hour>
+            <bpm:minute>0</bpm:minute>
+            <bpm:relevantData></bpm:relevantData>
+            <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+          </bpm:timeLimitInfo>
+          <bpm:remindInfo>
+            <bpm:remindType>email</bpm:remindType>
+            <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+            <bpm:day1>0</bpm:day1>
+            <bpm:hour1>0</bpm:hour1>
+            <bpm:minute1>0</bpm:minute1>
+            <bpm:remindRelevantData></bpm:remindRelevantData>
+            <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+          </bpm:remindInfo>
+        </bpm:timeLimit>
+        <bpm:freeFlowRule>
+          <bpm:isFreeActivity>false</bpm:isFreeActivity>
+          <bpm:isOnlyLimitedManualActivity>false</bpm:isOnlyLimitedManualActivity>
+          <bpm:freeRangeStrategy>freeWithinProcess</bpm:freeRangeStrategy>
+        </bpm:freeFlowRule>
+      </bpm:userTaskExtension>
+      <rendering id="">
+        <bpm:renderingExtension>
+          <bpm:renderingType>manual_task</bpm:renderingType>
+          <bpm:renderingUrl></bpm:renderingUrl>
+          <bpm:renderingResource>
+            <bpm:resourceType>manual_task</bpm:resourceType>
+            <bpm:resourceID>951a3d0df1e54f2c96be6fe1295f2e59</bpm:resourceID>
+            <bpm:resourceName>技术监督年度计划编辑(领域业务目录/PMS2.0/技术监督/技术监督年度计划)</bpm:resourceName>
+          </bpm:renderingResource>
+        </bpm:renderingExtension>
+      </rendering>
+    </userTask>
+    <sequenceFlow id="UserTask-NoneEndEvent" name="" sourceRef="UserTask" targetRef="NoneEndEvent" isImmediate="false"/>
+    <sequenceFlow id="NoneStartEvent-ndjhbz" name="" sourceRef="NoneStartEvent" targetRef="ndjhbz" isImmediate="false"/>
+    <sequenceFlow id="ndjhbz-UserTask" name="" sourceRef="ndjhbz" targetRef="UserTask" isImmediate="false"/>
+    <bpm:processExtension>
+      <bpm:specifyProcessStarter>false</bpm:specifyProcessStarter>
+      <bpm:priority>10</bpm:priority>
+      <bpm:longProcess>true</bpm:longProcess>
+      <bpm:businessIDPath>BUSINESSID</bpm:businessIDPath>
+      <bpm:processStarter/>
+      <bpm:timeLimit>
+        <bpm:isTimeLimitSet>false</bpm:isTimeLimitSet>
+        <bpm:calendarSet>
+          <bpm:initType>appoint</bpm:initType>
+          <bpm:calendarPath></bpm:calendarPath>
+          <bpm:calendarInfo>
+            <bpm:resourceType>business_calendar</bpm:resourceType>
+            <bpm:resourceID>default</bpm:resourceID>
+            <bpm:resourceName>默认日历</bpm:resourceName>
+          </bpm:calendarInfo>
+        </bpm:calendarSet>
+        <bpm:timeLimitInfo>
+          <bpm:remindType>email</bpm:remindType>
+          <bpm:timeLimitStrategy>limit_strategy_designate</bpm:timeLimitStrategy>
+          <bpm:day>0</bpm:day>
+          <bpm:hour>0</bpm:hour>
+          <bpm:minute>0</bpm:minute>
+          <bpm:relevantData></bpm:relevantData>
+          <bpm:isSendMessageForOvertime>false</bpm:isSendMessageForOvertime>
+        </bpm:timeLimitInfo>
+        <bpm:remindInfo>
+          <bpm:remindType>email</bpm:remindType>
+          <bpm:remindStrategy>remind_strategy_designate</bpm:remindStrategy>
+          <bpm:day1>0</bpm:day1>
+          <bpm:hour1>0</bpm:hour1>
+          <bpm:minute1>0</bpm:minute1>
+          <bpm:remindRelevantData></bpm:remindRelevantData>
+          <bpm:isSendMessageForRemind>false</bpm:isSendMessageForRemind>
+        </bpm:remindInfo>
+      </bpm:timeLimit>
+      <bpm:triggerEvents/>
+      <bpm:processCalendar>
+        <bpm:resourceType>business_calendar</bpm:resourceType>
+        <bpm:resourceID>default</bpm:resourceID>
+        <bpm:resourceName>默认日历</bpm:resourceName>
+      </bpm:processCalendar>
+      <bpm:extendNodes/>
+      <bpm:processEndParameter>
+        <dataInputAssociation id="" name="">
+          <bpm:targetRef></bpm:targetRef>
+        </dataInputAssociation>
+        <inputSet id=""/>
+      </bpm:processEndParameter>
+    </bpm:processExtension>
+  </process>
+  <bpmndi:BPMNDiagram name="jsjdndjhlc" resolution="72">
+    <bpmndi:BPMNPlane bpmnElement="jsjdndjhlc">
+      <bpmndi:BPMNShape bpmnElement="NoneStartEvent" isHorizontal="false" isExpand="false">
+        <dc:Bounds height="30" width="30" x="33.5" y="164.5"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="NoneEndEvent" isHorizontal="false" isExpand="false">
+        <dc:Bounds height="30" width="30" x="520" y="165"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="UserTask" isHorizontal="false" isExpand="false">
+        <dc:Bounds height="65" width="92" x="299.5" y="148"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ndjhbz" isHorizontal="false" isExpand="false">
+        <dc:Bounds height="65" width="92" x="136" y="147.5"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="UserTask-NoneEndEvent" displayMode="FLINE">
+        <di:waypoint x="391.5" y="180.35"/>
+        <di:waypoint x="520" y="180"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="NoneStartEvent-ndjhbz" displayMode="FLINE">
+        <di:waypoint x="63.5" y="179.55"/>
+        <di:waypoint x="136" y="179.8"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="ndjhbz-UserTask" displayMode="FLINE">
+        <di:waypoint x="228" y="180.1"/>
+        <di:waypoint x="299.5" y="180.3"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpm:definitionExtension>
+    <bpm:author>1</bpm:author>
+    <bpm:department></bpm:department>
+    <bpm:resource>
+      <bpm:businessVariables>
+        <bpm:businessVariable>
+          <bpm:variableUUID>PROCESS:7267D050367FD5B8A5013436FF0D1FFA</bpm:variableUUID>
+          <bpm:variableName>businessId</bpm:variableName>
+          <bpm:xpath>businessId</bpm:xpath>
+          <bpm:description></bpm:description>
+        </bpm:businessVariable>
+        <bpm:businessVariable>
+          <bpm:variableUUID>PROCESS:62388F3F2EC2AA569561343872A6960E</bpm:variableUUID>
+          <bpm:variableName>shjg</bpm:variableName>
+          <bpm:xpath>shjg</bpm:xpath>
+          <bpm:description></bpm:description>
+        </bpm:businessVariable>
+        <bpm:businessVariable>
+          <bpm:variableUUID>PROCESS:636A7596893DA4C58E8C34389F80DE11</bpm:variableUUID>
+          <bpm:variableName>shyj</bpm:variableName>
+          <bpm:xpath>shyj</bpm:xpath>
+          <bpm:description></bpm:description>
+        </bpm:businessVariable>
+        <bpm:businessVariable>
+          <bpm:variableUUID>PROCESS:B835669A1B2945DB4F4F3438C98C0FBC</bpm:variableUUID>
+          <bpm:variableName>shsj</bpm:variableName>
+          <bpm:xpath>shsj</bpm:xpath>
+          <bpm:description></bpm:description>
+        </bpm:businessVariable>
+        <bpm:businessVariable>
+          <bpm:variableUUID>PROCESS:127B04B33C35E3AE6A36343902296849</bpm:variableUUID>
+          <bpm:variableName>shr</bpm:variableName>
+          <bpm:xpath>shr</bpm:xpath>
+          <bpm:description></bpm:description>
+        </bpm:businessVariable>
+      </bpm:businessVariables>
+    </bpm:resource>
+  </bpm:definitionExtension>
+</definitions>

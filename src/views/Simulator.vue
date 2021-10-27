@@ -120,16 +120,24 @@
 		left: 0px;
 		right: 0px;
 		bottom: 0px;
-		height: 90%;
+		height:100%;
 		width: 100%;
 	}
-
+	.el-header {
+    padding: 0px;
+}
+.el-button {
+  background-color: #3F4254;
+}
 	#simulator .el-container {
 
 		height: 100%;
 		width: 100%;
 	}
-
+	.el-main {
+    
+    padding: 00px;
+}
 	#simulator .el-container .el-main {
 
 		height: 100%;

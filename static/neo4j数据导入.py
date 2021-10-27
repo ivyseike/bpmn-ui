@@ -133,7 +133,7 @@ def findProcess(data,outgoings):
     return result
             
 def read_file():
-    path ="C:\\Users\\Administrator\\Desktop\\研究生\\代码\\vue-bpmn-demo\\static\\tempData"
+    path ="C:\\Users\\Administrator\\Desktop\\研究生\\代码\\前台\\vue-bpmn-demo\\static\\tempData"
     fileList = os.listdir(path)
     fileContent = []
     #print(type(fileList[0]))
@@ -174,9 +174,11 @@ def findNode(nodeList,name1,name2):
         print('error!')
     return num1,num2
 print('正在读取数据……')
+#读取BPMN文件。返回文件List
 fileName,fileContent=read_file()
 print('数据读取完成，正在解析……')
 #定义所有的流程图属性
+#解析BPMN数据。获取节点集N，以及关系集R
 nodeList,relationList = analysisData(fileName,fileContent)
 print('数据解析完成')
 print('节点和关系生成完成')
@@ -186,13 +188,14 @@ for i in range(len(fileName)):
 
 index = 0
 graphNodeList = []
-
+#将数据写进neo4j
 for index in range(0,len(fileName)):
     print("处理了：",index)
     graphNodeList = []
     #删除老数据
     cmd = "match (n:"+fileName[index]+")  detach delete n"
     graph.run("match (n:haha)  detach delete n")
+    #插入新数据
     for oneNode in nodeList[index]:
         temp = Node(fileName[index],name = oneNode.name)
         graph.create(temp)

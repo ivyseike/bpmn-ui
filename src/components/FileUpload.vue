@@ -37,7 +37,9 @@
                 if(this.fileList.length>0){
                     this.$axios({
                         method: 'post',
-                        url: 'http://localhost:8090/upload/uploadFiles',
+                        url: 'http://backend-java:8090/upload/uploadFiles',
+                        //url: 'http://lxc-backend-java.ingress.isa.buaanlsde.cn/upload/uploadFiles',
+                        //lxc
                         // headers: {
                         //     'Content-Type': 'multipart/form-data'
                         // },

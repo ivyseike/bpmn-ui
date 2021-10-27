@@ -6,6 +6,10 @@ import Home from "../views/Home.vue"
 const Editor = ()=>import('../views/Editor.vue')
 const Simulator = ()=>import('../views/Simulator.vue')
 const Mapper = ()=>import('../views/Mapper.vue')
+const ModelRater = ()=>import('../views/ModelRater.vue')
+const NLTransformer = ()=>import('../views/NLTransformer')
+const BpmnToChatbot = ()=>import('../views/BpmnToChatbot')
+const Graph = ()=>import('../views/Runninggraph.vue')
 
 
 Vue.use(VueRouter)
@@ -32,6 +36,22 @@ const routes = [
 	{
 		path: '/mapper',
 		component: Mapper
+	},
+	{
+		path: '/rater',
+		component: ModelRater
+	},
+	{
+		path: '/transformer',
+		component: NLTransformer
+	},
+	{
+		path: '/bpmnToChatbot',
+		component: BpmnToChatbot
+	},
+	{
+		path: '/graph',
+		component: Graph
 	},
 	
 ]

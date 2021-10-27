@@ -133,7 +133,7 @@ def findProcess(data,outgoings):
     return result
             
 def read_file():
-    path ="C:\\Users\\Administrator\\Desktop\\研究生\\代码\\vue-bpmn-demo\\static\\saveTemp"
+    path ="C:\\Users\\Administrator\\Desktop\\研究生\\代码\\前台\\vue-bpmn-demo\\static\\saveTemp"
     fileList = os.listdir(path)
     fileContent = []
     #print(type(fileList[0]))

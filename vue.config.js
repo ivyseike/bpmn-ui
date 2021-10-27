@@ -9,6 +9,7 @@ module.exports = {
 			.end()
 	},
 	devServer: {
+		disableHostCheck: true,
 		proxy: {
 			'/api/text2bpmn': {
 				target: 'http://0.0.0.0:9090', //要请求的地址
