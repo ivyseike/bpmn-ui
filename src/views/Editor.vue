@@ -402,9 +402,6 @@ export default {
       axios.post("/api/test", {xml: this.xmlStr},{ headers: { "Content-Type": "application/xml" } })
       .then(res => {
         console.log(res.data)
-        this.$message({
-                  type: 'success',
-                  message: '开始调用映射图生成组件'})
         this.$router.push({
           path:'/graph',
           query:{
@@ -660,9 +657,9 @@ filter: alpha(opacity=30);
   z-index: 999;
   background-color: #111111;
 }
-.el-button {
-  background-color: #3F4254;
-}
+/*.el-button {*/
+/*  background-color: #3F4254;*/
+/*}*/
 #editor .el-container {
   position: fixed;
   margin: auto;
@@ -704,10 +701,10 @@ filter: alpha(opacity=30);
 #editor #BpmnProperties {
   /* 右侧元素属性菜单 */
   position:absolute;
-  top:10px;
-  right:10px;
-  width: 300px;
-  height: 450px;
+  top:0px;
+  right:0px;
+  width: 0px;
+  height: 0px;
   overflow-y:scroll;
   /*background-color: rgba(0, 0, 0, 0);*/
 }

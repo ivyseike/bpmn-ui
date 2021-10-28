@@ -18,6 +18,11 @@ module.exports = {
 				pathRewrite: {
 					'^/api/text2bpmn': '/bpmn', //^/api/text2bpmn 会重写为 target/bpmn
 				}
+			},
+			'/api/test': {
+				target: 'http://localhost:5000', //要请求的地址
+				changeOrigin: true, //如果需要跨域
+				ws: true,
 			}
 		},
 	}
