@@ -46,7 +46,8 @@
           <el-button type="primary" size="medium" @click="showWindow">语义推荐</el-button>
           <el-button type="primary" size="medium" @click="showUploadWindow">上传文件</el-button>
           <!--<el-button type="primary" size="medium" @click="abc">流程规划</el-button>-->
-          <el-button type="primary" size="medium" @click="dialogFormVisible = true">运行流程</el-button>
+          <el-button type="primary" size="medium" @click="pmrun">运行流程</el-button>
+          <el-button type="primary" size="medium" @click="showpopup">api推荐</el-button>
         </el-button-group>
       </el-header>
       <el-dialog title="请输入您的初始参数及设定的值" :visible.sync="dialogFormVisible" center>
@@ -77,31 +78,45 @@
                   ></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="2">
-                <el-form-item label-width="10px"  v-if="batchForm[index].index === batchFormNum">
-                  <el-button type="primary" icon="el-icon-edit"  @click="batchAdd(index, batchForm[batchForm.length - 1].index)">继续添加</el-button>
+
+<!--              api添加参数部分-->
+              <el-col :span="8">
+                <el-form-item label="类型:">
+                  <div>{{item.type}}</div>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="8">
+                <el-form-item label="描述：">
+                  <div>{{item.info}}</div>
+                </el-form-item>
+              </el-col>
+
+<!--              <el-col :span="2">-->
+<!--                <el-form-item label-width="10px"  v-if="batchForm[index].index === batchFormNum">-->
+<!--                  <el-button type="primary" icon="el-icon-edit"  @click="batchAdd(index, batchForm[batchForm.length - 1].index)">继续添加</el-button>-->
 <!--                <span-->
 <!--                        class="el-icon-circle-plus binding-button-plus"-->
 <!--                        @click="batchAdd(index, batchForm[batchForm.length - 1].index)"-->
 <!--                ></span>-->
-                </el-form-item>
-              </el-col>
-              <el-col :span="2">
-                <el-form-item>
-                  <!--                <el-form-item   v-if="item.name != '' || item.value!==''">-->
-                  <el-button type="danger" icon="el-icon-delete"  @click="batchDel(index)">删除</el-button>
-<!--                  <span-->
-<!--                          class="el-icon-circle-close binding-button-close"-->
-<!--                          @click="batchDel(index)"-->
-<!--                  ></span>-->
-                </el-form-item>
-              </el-col>
+<!--                </el-form-item>-->
+<!--              <el-col :span="2">-->
+<!--                <el-form-item>-->
+<!--                  &lt;!&ndash;                <el-form-item   v-if="item.name != '' || item.value!==''">&ndash;&gt;-->
+<!--                  <el-button type="danger" icon="el-icon-delete"  @click="batchDel(index)">删除</el-button>-->
+<!--&lt;!&ndash;                  <span&ndash;&gt;-->
+<!--&lt;!&ndash;                          class="el-icon-circle-close binding-button-close"&ndash;&gt;-->
+<!--&lt;!&ndash;                          @click="batchDel(index)"&ndash;&gt;-->
+<!--&lt;!&ndash;                  ></span>&ndash;&gt;-->
+<!--                </el-form-item>-->
+<!--              </el-col>-->
             </el-row>
           </div>
         </el-form>
         <el-button type="primary" size="medium" class="el-icon-check" @click="checknature">检验</el-button>
         <el-button type="primary" size="medium" class="el-icon-refresh" @click="resetForm">重置</el-button>
         <el-button type="primary" size="medium" @click="plan">运行流程</el-button>
+        <el-button type="primary" size="medium" @click="pmplan">运行流程2</el-button>
         <el-button type="danger" size="medium" @click="dialogFormVisible = false">取消</el-button>
       </el-dialog>
       <el-main>
@@ -112,7 +127,8 @@
 <!--        弹窗模块-->
         <div v-show="popup" >
           <!--这里是要展示的内容层-->
-          <Search @childFn="recevieChildParam"></Search>
+          <Search @childFn="recevieChildParam" v-on:transferapi="getApi"></Search>
+
           <!--这里是半透明背景层-->
           <div class="over"></div>
         </div>
@@ -130,7 +146,23 @@
         <div class="bpmnContainer">
           <div id="BpmnCanvas" ref="canvas"></div>
           <div id="BpmnProperties" ref="canvas"></div>
+          <!--        选择需要的api-->
+          <div id="selectApi" ref="canvas">
+            <el-cascader
+                ref="cascaderAddr"
+                :options="options"
+                v-model="selectedOptions"
+                @change="handleChange">
+              <!--            绑定流程和api-->
+            </el-cascader><el-button @click="sure">选择api</el-button>
+            <!--            data数据-->
+            <!--            向后端发送数据-->
+            <el-button @click="transferDict">确定</el-button>
+            <label>选择api:</label>
+            <Message>{{msg}}</Message>
+          </div>
         </div>
+
       </el-main>
     </el-container>
   </div>
@@ -173,10 +205,19 @@ export default {
         {
           name: "",
           value: "",
+          info: "",
+          type: "",
           index: 0,
         }
       ],
       batchFormNum: 0,
+      msg:[],
+      tem: [],
+      recomapi:[],
+      selectedOptions:"",
+      options: [],
+      proName:"",
+      apiDict: {},
     };
   },
   components: {
@@ -189,58 +230,58 @@ export default {
       this.popup = 1;
     },
     //子组件传来参数
-    recevieChildParam(popup,xmlStr){
+    recevieChildParam(popup, xmlStr) {
       this.popup = popup;
       this.xmlStr = xmlStr;
       this.bpmnModeler.importXML(xmlStr);
     },
-    showUploadWindow(){
+    showUploadWindow() {
       this.isShowUploadWindow = !this.isShowUploadWindow
       //this.isShowSearchWindow = false
     },
-    showSearch(){
+    showSearch() {
       this.isShowSearchWindow = !this.isShowSearchWindow
       this.isShowUploadWindow = false
     },
     showWindow() {
-       //const axios = this.$axios;
-       //axios.defaults.withCredentials = true
-        this.$prompt('', '请输入您的需求:', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            closeOnClickModal: false,
-            showInput: true,
-            inputPlaceholder: "请输入信息",
-            inputType: "textarea"
-        }).then(({value}) => {
-            this.$message({
-                type: 'success',
-                message: '你的输入是: ' + (value == null ? "" : value)
-            })
-            //发送数据
-            request({
-              
-                url: "http://lxc-backend-java.ingress.isa.buaanlsde.cn/recommendation/RecommSemantics",
-                method: "get",
-                params: {
-                    message: value
-                }
-            }).then(res => {
-                //console.log(res.data)
-                this.xmlStr = res.data;
-                this.bpmnModeler.importXML(this.xmlStr);
-            }).catch(err => {
-                console.log("发送失败")
-            })
-        }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '还没想好？'
-            });
+      //const axios = this.$axios;
+      //axios.defaults.withCredentials = true
+      this.$prompt('', '请输入您的需求:', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        closeOnClickModal: false,
+        showInput: true,
+        inputPlaceholder: "请输入信息",
+        inputType: "textarea"
+      }).then(({value}) => {
+        this.$message({
+          type: 'success',
+          message: '你的输入是: ' + (value == null ? "" : value)
         })
+        //发送数据
+        request({
+
+          url: "http://lxc-backend-java.ingress.isa.buaanlsde.cn/recommendation/RecommSemantics",
+          method: "get",
+          params: {
+            message: value
+          }
+        }).then(res => {
+          //console.log(res.data)
+          this.xmlStr = res.data;
+          this.bpmnModeler.importXML(this.xmlStr);
+        }).catch(err => {
+          console.log("发送失败")
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '还没想好？'
+        });
+      })
     },
     // 初始化函数
-    initBpmn: function() {
+    initBpmn: function () {
       this.bpmnModeler = new BpmnModeler({
         container: "#BpmnCanvas", //主窗口挂载点
         propertiesPanel: {
@@ -258,50 +299,51 @@ export default {
         }
       });
       this.bpmnModeler.importXML(this.xmlStr); //载入空白模板
+      this.addEventBusListener();    //监听流程点击
     },
 
     // 文件导入
     //通过click()点击调用fileLoader组件，该组件不会显示在页面中
-    handleImportButton: function() {
+    handleImportButton: function () {
       const element = document.getElementById("fileLoader");
       element.click();
     },
     //组件接收到文件以后，会将字符串返回，发出loadFile事件
     //监听到loadFile事件后，调用loadBpmnFromFile方法将字符串显示到页面
-    loadBpmnFromFile: function(bpmnFile) {
+    loadBpmnFromFile: function (bpmnFile) {
       this.xmlStr = bpmnFile;
       this.bpmnModeler.importXML(this.xmlStr);
     },
 
     //下载BPMN为.BPMN格式（本质上是xml格式）
-    downloadBpmnToFile: function() {
+    downloadBpmnToFile: function () {
       this.bpmnModeler.saveXML(
-        {
-          format: true
-        },
-        (err, xml) => {
-          this.download("1.bpmn", xml);
-        }
+          {
+            format: true
+          },
+          (err, xml) => {
+            this.download("1.bpmn", xml);
+          }
       );
     },
     //下载BPMN为.SVG格式
-    downloadBpmnToSVG: function() {
+    downloadBpmnToSVG: function () {
       this.bpmnModeler.saveSVG(
-        {
-          format: true
-        },
-        (err, data) => {
-          this.download("bpmn.svg", data);
-        }
+          {
+            format: true
+          },
+          (err, data) => {
+            this.download("bpmn.svg", data);
+          }
       );
     },
     //下载其实是调用了这个函数进行的，感觉还可以再简写一下
-    download: function(filename, text) {
+    download: function (filename, text) {
       let element = document.createElement("a");
       element.style.display = "none";
       element.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+          "href",
+          "data:text/plain;charset=utf-8," + encodeURIComponent(text)
       );
       element.setAttribute("download", filename);
       document.body.appendChild(element);
@@ -311,73 +353,72 @@ export default {
 
     //重置
     //当前的this.xmlStr重新替换为空白模板
-    resetBPMN: function() {
+    resetBPMN: function () {
       this.xmlStr = BlankStr;
       this.bpmnModeler.importXML(this.xmlStr);
     },
 
     //保存
-    saveBPMN: function() {            
-      
+    saveBPMN: function () {
+
       this.bpmnModeler.saveXML(
-        {
-          format: true
-        },
-        (err, xml) => {
-          this.xmlStr = xml;
-          this.$store.dispatch("editXml", this.xmlStr);
-          
-          this.$prompt('', '请输入文件名:', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      closeOnClickModal: false,
-      showInput: true,
-      inputPlaceholder: "请输入信息",
-      inputType: "textarea"
-  }).then(({value}) => {            
-      //发送数据
-      request({
-        
-          url: "https://lxc-backend-java.ingress.isa.buaanlsde.cn/recommendation/saveBPMN",
-          method: "post",
-          /*params: {
+          {
+            format: true
+          },
+          (err, xml) => {
+            this.xmlStr = xml;
+            this.$store.dispatch("editXml", this.xmlStr);
+
+            this.$prompt('', '请输入文件名:', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              closeOnClickModal: false,
+              showInput: true,
+              inputPlaceholder: "请输入信息",
+              inputType: "textarea"
+            }).then(({value}) => {
+              //发送数据
+              request({
+
+                url: "https://lxc-backend-java.ingress.isa.buaanlsde.cn/recommendation/saveBPMN",
+                method: "post",
+                /*params: {
               name:value,
              //message : xml
           },*/
-          data:  qs.stringify({name:value,message :xml}),
-          
-          
-      }).then(res => {
-          //console.log(res.data)
-          if(res.data==="0"){
-            this.$message({
-                type: 'success',
-                message: '保存成功'
-      });
-          }
-          //this.xmlStr = res.data;
-          //this.bpmnModeler.importXML(this.xmlStr);
-      }).catch(err => {
-          console.log("发送失败")
-      })
-  }).catch(() => {
-      this.$message({
-          type: 'info',
-          message: '还没想好？'
-      });
-  })
+                data: qs.stringify({name: value, message: xml}),
 
-        }
+
+              }).then(res => {
+                //console.log(res.data)
+                if (res.data === "0") {
+                  this.$message({
+                    type: 'success',
+                    message: '保存成功'
+                  });
+                }
+                //this.xmlStr = res.data;
+                //this.bpmnModeler.importXML(this.xmlStr);
+              }).catch(err => {
+                console.log("发送失败")
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '还没想好？'
+              });
+            })
+
+          }
       );
     },
-     //流程规划
+    //流程规划
     checknature: function(){
       var nature = {};
-      for (var i=0; i<=this.batchFormNum;i++){
+      // console(batchFormNum);
+      for (var i=0; i<this.batchForm.length;i++){
         nature[this.batchForm[i].name]=this.batchForm[i].value
       }
-
-
       this.$alert(JSON.stringify(nature) ,'这是您输入的参数',{
         confirmButtonText: '确定',
         callback: action => {
@@ -387,8 +428,9 @@ export default {
 
     },
 
-    resetForm: function(){
-      for(var i=1; i<= this.batchFormNum; i++){
+
+    resetForm: function () {
+      for (var i = 1; i <= this.batchFormNum; i++) {
         this.batchForm.splice(i);
       }
       this.batchForm[0].name = "";
@@ -397,53 +439,57 @@ export default {
       this.batchFormNum = 0;
     },
 
-    plan: function() {
+    plan: function () {
       this.dialogFormVisible = false;
-      axios.post("/api/test", {xml: this.xmlStr},{ headers: { "Content-Type": "application/xml" } })
-      .then(res => {
-        console.log(res.data)
-        this.$router.push({
-          path:'/graph',
-          query:{
-            xml: this.xmlStr,
-            place : res.data
-          }
-        })
-      })
+      axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}})
+          .then(res => {
+            console.log(res.data)
+            this.$message({
+              type: 'success',
+              message: '开始调用映射图生成组件'
+            })
+            this.$router.push({
+              path: '/graph',
+              query: {
+                xml: this.xmlStr,
+                place: res.data
+              }
+            })
+          })
       // this.$router.push({
       //   path: '/graph',
       //   query: {
       //     xml: this.xmlStr,
       //   }
       // })
-        // axios({
-        //       method: "get",
-        //       url: "https://scheme-generation.ingress.isa.buaanlsde.cn/tt",
-        //       //url: "http://backend-java:8090/recommendation/RecommStructure",
-        //       //url: "http://localhost:8090/recommendation/RecommStructure",
-        //       //data: qs.stringify({lxccontent:strXML})
-        //     })
-        //       .then(res => {
-        //
-        //       })
-        //window.open('https://scheme-generation.ingress.isa.buaanlsde.cn/tt')
-        // window.open('https://argo-serve.ingress.isa.buaanlsde.cn/workflows/argo/')
+      // axios({
+      //       method: "get",
+      //       url: "https://scheme-generation.ingress.isa.buaanlsde.cn/tt",
+      //       //url: "http://backend-java:8090/recommendation/RecommStructure",
+      //       //url: "http://localhost:8090/recommendation/RecommStructure",
+      //       //data: qs.stringify({lxccontent:strXML})
+      //     })
+      //       .then(res => {
+      //
+      //       })
+      //window.open('https://scheme-generation.ingress.isa.buaanlsde.cn/tt')
+      // window.open('https://argo-serve.ingress.isa.buaanlsde.cn/workflows/argo/')
     },
 
     batchAdd(index, length) {
-      if (this.batchForm[index].value !== ""&& this.batchForm[index].name !== "") {
-        this.batchForm.push({ name: "", value: "", index: length + 1 });
+      if (this.batchForm[index].value !== "" && this.batchForm[index].name !== "") {
+        this.batchForm.push({name: "", value: "", index: length + 1});
         this.batchFormNum = length + 1;
-      } else if(this.batchForm[index].name === "") {
+      } else if (this.batchForm[index].name === "") {
         this.$message.error("参数名不能为空");
-      }else{
+      } else {
         this.$message.error("参数值不能为空");
       }
     },
     batchDel(index) {
       if (this.batchForm.length <= 1) {
         this.batchForm[index].value = "";
-        this.batchForm[index].name  = "";
+        this.batchForm[index].name = "";
         this.batchForm[index].index = 0;
         this.batchFormNum = 0;
       } else {
@@ -459,39 +505,39 @@ export default {
       }
     },
 
-     //推荐     
-     
-    recoBPMN: function() {         
+    //推荐
+
+    recoBPMN: function () {
       const axios = this.$axios;
       axios.defaults.withCredentials = true
       var strXML;
-      //Vue.prototype.$qs = qs         
+      //Vue.prototype.$qs = qs
       this.bpmnModeler.saveXML(
           {
             format: true
           },
           (err, xml) => {
-            strXML= xml                      
+            strXML = xml
           }
-        );        
-   axios({
-          method: "post",              
-          url: "http://lxc-backend-java.ingress.isa.buaanlsde.cn/recommendation/RecommStructure",   
-          //url: "http://backend-java:8090/recommendation/RecommStructure",   
-          //url: "http://localhost:8090/recommendation/RecommStructure",        
-          data: qs.stringify({lxccontent:strXML})              
-        })
+      );
+      axios({
+        method: "post",
+        url: "http://lxc-backend-java.ingress.isa.buaanlsde.cn/recommendation/RecommStructure",
+        //url: "http://backend-java:8090/recommendation/RecommStructure",
+        //url: "http://localhost:8090/recommendation/RecommStructure",
+        data: qs.stringify({lxccontent: strXML})
+      })
           .then(res => {
             //console.log(content);
             this.xmlStr = res.data;
             this.bpmnModeler.importXML(this.xmlStr);
-           
-           
+
+
           })
-     },
+    },
 
     //检查
-    checkBPMN: function() {
+    checkBPMN: function () {
       /*使用形式化验证会在底部出现Toggle Lint按钮，检查只需要点击响应的按钮即可*/
       const bjslButton = document.querySelector(".bjsl-button");
       bjslButton.click();
@@ -555,9 +601,9 @@ export default {
       });
     }
     */
-  },
-  //文本转换
-    textTransform: function() {
+
+    //文本转换
+    textTransform: function () {
       const _bpmnModeler = this.bpmnModeler;
       const axios = this.$axios;
       this.$msgbox({
@@ -574,8 +620,8 @@ export default {
             //在发送前把数据打包，否则后端接收不到
             let _param = new URLSearchParams();
             _param.append(
-              "str",
-              instance.inputValue ? instance.inputValue : " "
+                "str",
+                instance.inputValue ? instance.inputValue : " "
             );
             // _param.append("name", "cbaymax")
 
@@ -585,24 +631,24 @@ export default {
               url: "/api/text2bpmn",
               data: _param
             })
-              .then(res => {
-                console.log(res);
-                _bpmnModeler.importXML(res.data);
-                instance.confirmButtonLoading = false;
-                this.$message({
-                  type: "success",
-                  message: "执行成功"
+                .then(res => {
+                  console.log(res);
+                  _bpmnModeler.importXML(res.data);
+                  instance.confirmButtonLoading = false;
+                  this.$message({
+                    type: "success",
+                    message: "执行成功"
+                  });
+                  done();
+                })
+                .catch(err => {
+                  instance.confirmButtonLoading = false;
+                  this.$message({
+                    type: "error",
+                    message: err
+                  });
+                  done();
                 });
-                done();
-              })
-              .catch(err => {
-                instance.confirmButtonLoading = false;
-                this.$message({
-                  type: "error",
-                  message: err
-                });
-                done();
-              });
           } else {
             this.$message({
               type: "info",
@@ -613,8 +659,113 @@ export default {
         }
       });
     },
+    // api部分
+    // 从子组件获得推荐的api列表
+    getApi(msg) {
+      this.options = []
+      this.recomapi = []
+      let i = 0;
+      if (msg[0].length > 0) {
+        console.log(msg[0].length);
+        this.recomapi = msg[0]
+      } else {
+        this.recomapi = msg
+      }
+      // let recomList=[];
+      console.log("recomapi is:", this.recomapi)
+      for (; i < this.recomapi.length; i++) {
+        // i++
+        let item = this.recomapi[i]
+        console.log("item is:", item)
+        if (i % 2 == 0) {
+          this.options.push({value: i, label: item.name})
+        }
+      }
+    },
+    // 选择api
+    handleChange(val) {
+      this.$refs['cascaderAddr'].getCheckedNodes()[0].pathLabels
+      console.log(this.$refs['cascaderAddr'].getCheckedNodes()[0].value)
+      this.tem = this.recomapi[this.$refs['cascaderAddr'].getCheckedNodes()[0].value]
+      // axios.post("/api/hnust/CreateBPMN",this.msg,{responseType:'blob'}).then(res=>{const binaryData = [];
+      //   binaryData.push(res.data);//后端返回的值
+      //   this.bpmn=new Blob(binaryData,{type: "application/x-javascript"} );
+      // })
+    },
+    // 绑定api和流程
+    sure() {
+      this.msg = this.tem
+      // console.log("选择的api是：",this.msg)
+      if (this.proName != "" && this.proName != undefined) {
+        // console.log("this.proName is:",this.proName)
+        this.$set(this.apiDict, this.proName, this.msg)
+        // console.log("api 字典是：",this.apiDict)
+      } else {
+        console.log("未选中流程")
+      }
+      this.msg = this.apiDict
+    },
+    // 传递流程和api的绑定
+    transferDict() {
+      axios.post("/api/hnust/getDict", this.apiDict)
+    },
+    //添加组件监听器
+    addEventBusListener() {
+      let that = this
+      const eventBus = this.bpmnModeler.get('eventBus')
+      const eventTypes = ['element.click']
+      eventTypes.forEach(function (eventType) {
+        eventBus.on(eventType, function (e) {
+          if (!e || e.element.type === 'bpmn:process') {
+            console.log("false");
+            return
+          } else {
+            console.log(e.element)
+            console.log(e.element.id)
+            that.proName = e.element.businessObject.name
+          }
+        })
+      })
+    },
+    // 运行流程
 
-  //生命周期函数 - 组件载入后, Vue 实例挂载到实际的 DOM 操作完成前执行该操作，不能在created()时初始化
+    pmrun: function () {
+      this.dialogFormVisible = true;
+      // resetForm();
+      // this.batchForm = [{name:"1",value: "",index: 0},{name:"2",value: "",index: 1}]
+      var parajson = this.recomapi[0].apiparams;
+      //var parajson = "{\"required\":[{\"name\":\"latitude\",\"value\":\"33.775867\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"longitude\",\"value\":\"-84.39733\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"from_date\",\"value\":\"2021-10-07\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"to_date\",\"value\":\"2021-10-07\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"elevation\",\"value\":\"166\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"time\",\"value\":\"12:00:00\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"}]}";
+      var parameters = JSON.parse(parajson);
+      this.batchFormNum = parameters.required.length;
+      for (var i = 0; i < parameters.required.length; i++) {
+        var param = parameters.required[i];
+        // var info = "paramType:"+param.paramType+";description:"+param.description;
+        if (i == 0)
+          this.batchForm.pop();
+        if (param.value == "")
+          this.batchForm.push({name: param.name, value: "", info: param.description, type: param.paramType, index: i});
+        else
+          this.batchForm.push({
+            name: param.name,
+            value: param.value,
+            info: param.description,
+            type: param.paramType,
+            index: i
+          });
+      }
+    },
+    pmplan: function () {
+      var nature = {};
+      for (var i = 0; i <= this.batchFormNum; i++) {
+        nature[this.batchForm[i].name] = this.batchForm[i].value
+      }
+      var parameterJson = JSON.stringify(nature);
+      axios.post("/api/hnust/getDict", {apiDict:this.apiDict,parameterJson:this.parameterJson})
+    }
+  },
+
+
+    //生命周期函数 - 组件载入后, Vue 实例挂载到实际的 DOM 操作完成前执行该操作，不能在created()时初始化
   mounted: function() {
     this.initBpmn();
   },
@@ -622,7 +773,7 @@ export default {
     this.xmlStr = this.$store.state.BpmnXml;
     this.bpmnModeler.importXML(this.xmlStr);
   }
-};
+}
 </script>
 
 <style>
@@ -657,9 +808,9 @@ filter: alpha(opacity=30);
   z-index: 999;
   background-color: #111111;
 }
-/*.el-button {*/
-/*  background-color: #3F4254;*/
-/*}*/
+.el-button {
+  background-color: #3F4254;
+}
 #editor .el-container {
   position: fixed;
   margin: auto;
@@ -679,7 +830,7 @@ filter: alpha(opacity=30);
   display: inherit;
 }
 .el-main {
-    
+
     padding: 00px;
 }
 #editor .bpmnContainer {
@@ -701,12 +852,19 @@ filter: alpha(opacity=30);
 #editor #BpmnProperties {
   /* 右侧元素属性菜单 */
   position:absolute;
-  top:0px;
-  right:0px;
-  width: 0px;
-  height: 0px;
+  top:10px;
+  right:10px;
+  width: 300px;
+  height: 450px;
   overflow-y:scroll;
   /*background-color: rgba(0, 0, 0, 0);*/
+}
+#editor #selectApi{
+  position:fixed;
+  top:600px;
+  right: 900px;
+  width: 300px;
+  height: 100px;
 }
 
 @import "~bpmn-js/dist/assets/diagram-js.css";
