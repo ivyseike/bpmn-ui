@@ -1,12 +1,13 @@
 <template>
-    <div class="search">
+    <div class="search" >
         <el-autocomplete class="inputBox"
                          v-model="state"
                          :fetch-suggestions="querySearchAsync"
                          placeholder="请输入内容"
                          :trigger-on-focus="false"
                          @select="handleSelect"
-                         @keyup.enter.native="search">
+                         @keyup.enter.native="search"
+                          >
             <template slot-scope="{ item }">
                 <div>
                     <div class="name"><span>{{ item.value }}</span></div>
@@ -16,12 +17,14 @@
 
             </template>
         </el-autocomplete>
-        <el-button type="primary" @click="search">确定</el-button>
-
+        <el-button type="primary" @click="searchApi">确定</el-button>
+      <el-button type="primary" @click="cancel">取消</el-button>
     </div>
 </template>
 
 <script>
+    import axios from "axios";
+    import {request} from "../network/request";
     export default {
         data() {
             return {
@@ -30,8 +33,24 @@
             };
         },
         methods: {
-            search(){
-                console.log("search")
+            cancel(){this.$emit('childFn', this.popup);},
+            search(){console.log("search")},
+            searchApi(){
+
+              // 通过语义推荐api
+              axios({
+                url: "/api/hnust/findByRequest",
+                method: "get",
+                params: {
+                  message: this.state
+                }}).then(res => {
+                  console.log("res is:",res.data)
+                this.recomapi=res.data
+                // 向父组件传递数据
+                this.$emit('transferapi',this.recomapi)
+
+              })
+              this.$emit('childFn', this.popup)
             },
             querySearchAsync(queryString, cb) {
                 var restaurants = this.restaurants;
