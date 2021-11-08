@@ -17,13 +17,19 @@ module.exports = {
 				ws: true,
 				pathRewrite: {
 					'^/api/text2bpmn': '/bpmn', //^/api/text2bpmn 会重写为 target/bpmn
+					}
+				},
+			'/api/hnust': {
+					target: 'http://8.129.113.40:8882/', //要请求的地址
+						changeOrigin: true, //如果需要跨域
+						ws: true,
+						pathRewrite: {
+						'^/api/hnust': ''
+						}
+					}
 				}
-			},
-			'/api/test': {
-				target: 'http://localhost:5000', //要请求的地址
-				changeOrigin: true, //如果需要跨域
-				ws: true,
-			}
-		},
+
+		}
+
 	}
-}
+
