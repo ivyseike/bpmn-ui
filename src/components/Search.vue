@@ -1,21 +1,24 @@
 <template>
     <div class="search" >
-        <el-autocomplete class="inputBox"
-                         v-model="state"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入内容"
-                         :trigger-on-focus="false"
-                         @select="handleSelect"
-                         @keyup.enter.native="search"
-                          >
-            <template slot-scope="{ item }">
-                <div>
-                    <div class="name"><span>{{ item.value }}</span></div>
-                    <div class="addr"><span>{{ item.address }}</span></div>
-                </div>
-
-
-            </template>
+<!--        <el-autocomplete class="inputBox"-->
+<!--                         v-model="state"-->
+<!--                         :fetch-suggestions="querySearchAsync"-->
+<!--                         placeholder="请输入内容"-->
+<!--                         :trigger-on-focus="false"-->
+<!--                         @select="handleSelect"-->
+<!--                         @keyup.enter.native="search"-->
+<!--                          >-->
+          <el-autocomplete class="inputBox"
+                           v-model="state"
+                           placeholder="请输入内容"
+                           :trigger-on-focus="false"
+          >
+<!--            <template slot-scope="{ item }">-->
+<!--                <div>-->
+<!--                    <div class="name"><span>{{ item.value }}</span></div>-->
+<!--                    <div class="addr"><span>{{ item.address }}</span></div>-->
+<!--                </div>-->
+<!--            </template>-->
         </el-autocomplete>
         <el-button type="primary" @click="searchApi">确定</el-button>
       <el-button type="primary" @click="cancel">取消</el-button>

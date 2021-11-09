@@ -4,13 +4,13 @@
       <el-header height="36px">
         <el-button-group>
           <el-button
-            type="primary"
-            size="medium"
-            class="el-icon-top-left"
-            @click="handleImportButton"
+              type="primary"
+              size="medium"
+              class="el-icon-top-left"
+              @click="handleImportButton"
           >
             导入
-            <fileLoader id="fileLoader" @loadFile="loadBpmnFromFile" />
+            <fileLoader id="fileLoader" @loadFile="loadBpmnFromFile"/>
           </el-button>
           <el-dropdown>
             <el-button type="primary" size="medium">
@@ -51,65 +51,65 @@
         </el-button-group>
       </el-header>
       <el-dialog title="请输入您的初始参数及设定的值" :visible.sync="dialogFormVisible" center>
-        <el-form  ref="form" label-width="80px" >
+        <el-form ref="form" label-width="80px">
           <div
-                  class="binding-item"
-                  v-for="(item, index) in batchForm"
-                  :key="index"
+              class="binding-item"
+              v-for="(item, index) in batchForm"
+              :key="index"
           >
             <el-row>
               <el-col :span="8">
                 <el-form-item label="参数名：">
                   <el-input
-                          v-model="item.name"
-                          placeholder="请输入参数名"
-                          width="120px"
-                          style="display:inline"
+                      v-model="item.name"
+                      placeholder="请输入参数名"
+                      width="120px"
+                      style="display:inline"
                   ></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="参数值：">
                   <el-input
-                          v-model="item.value"
-                          placeholder="请输入参数值"
-                          width="120px"
-                          style="display:inline"
+                      v-model="item.value"
+                      placeholder="请输入参数值"
+                      width="120px"
+                      style="display:inline"
                   ></el-input>
                 </el-form-item>
               </el-col>
 
-<!--              api添加参数部分-->
-              <el-col :span="8">
-                <el-form-item label="类型:">
-                  <div>{{item.type}}</div>
-                </el-form-item>
-              </el-col>
+              <!--              api添加参数部分-->
+              <!--              <el-col :span="8">-->
+              <el-form-item label="类型:">
+                <div>{{ item.type }}</div>
+              </el-form-item>
+              <!--              </el-col>-->
 
-              <el-col :span="8">
-                <el-form-item label="描述：">
-                  <div>{{item.info}}</div>
-                </el-form-item>
-              </el-col>
+              <!--              <el-col :span="8">-->
+              <el-form-item label="描述：">
+                <div style="width: 100%">{{ item.info }}</div>
+              </el-form-item>
+              <!--              </el-col>-->
 
-<!--              <el-col :span="2">-->
-<!--                <el-form-item label-width="10px"  v-if="batchForm[index].index === batchFormNum">-->
-<!--                  <el-button type="primary" icon="el-icon-edit"  @click="batchAdd(index, batchForm[batchForm.length - 1].index)">继续添加</el-button>-->
-<!--                <span-->
-<!--                        class="el-icon-circle-plus binding-button-plus"-->
-<!--                        @click="batchAdd(index, batchForm[batchForm.length - 1].index)"-->
-<!--                ></span>-->
-<!--                </el-form-item>-->
-<!--              <el-col :span="2">-->
-<!--                <el-form-item>-->
-<!--                  &lt;!&ndash;                <el-form-item   v-if="item.name != '' || item.value!==''">&ndash;&gt;-->
-<!--                  <el-button type="danger" icon="el-icon-delete"  @click="batchDel(index)">删除</el-button>-->
-<!--&lt;!&ndash;                  <span&ndash;&gt;-->
-<!--&lt;!&ndash;                          class="el-icon-circle-close binding-button-close"&ndash;&gt;-->
-<!--&lt;!&ndash;                          @click="batchDel(index)"&ndash;&gt;-->
-<!--&lt;!&ndash;                  ></span>&ndash;&gt;-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
+              <!--              <el-col :span="2">-->
+              <!--                <el-form-item label-width="10px"  v-if="batchForm[index].index === batchFormNum">-->
+              <!--                  <el-button type="primary" icon="el-icon-edit"  @click="batchAdd(index, batchForm[batchForm.length - 1].index)">继续添加</el-button>-->
+              <!--                <span-->
+              <!--                        class="el-icon-circle-plus binding-button-plus"-->
+              <!--                        @click="batchAdd(index, batchForm[batchForm.length - 1].index)"-->
+              <!--                ></span>-->
+              <!--                </el-form-item>-->
+              <!--              <el-col :span="2">-->
+              <!--                <el-form-item>-->
+              <!--                  &lt;!&ndash;                <el-form-item   v-if="item.name != '' || item.value!==''">&ndash;&gt;-->
+              <!--                  <el-button type="danger" icon="el-icon-delete"  @click="batchDel(index)">删除</el-button>-->
+              <!--&lt;!&ndash;                  <span&ndash;&gt;-->
+              <!--&lt;!&ndash;                          class="el-icon-circle-close binding-button-close"&ndash;&gt;-->
+              <!--&lt;!&ndash;                          @click="batchDel(index)"&ndash;&gt;-->
+              <!--&lt;!&ndash;                  ></span>&ndash;&gt;-->
+              <!--                </el-form-item>-->
+              <!--              </el-col>-->
             </el-row>
           </div>
         </el-form>
@@ -124,43 +124,53 @@
         <div class="righttop">
           <a class="rule" href="javascript:;" @click="showpopup"></a>
         </div>-->
-<!--        弹窗模块-->
-        <div v-show="popup" >
+        <!--        弹窗模块-->
+        <div v-show="popup">
           <!--这里是要展示的内容层-->
           <Search @childFn="recevieChildParam" v-on:transferapi="getApi"></Search>
 
           <!--这里是半透明背景层-->
           <div class="over"></div>
         </div>
- <!--       <div v-show="isShowSearchWindow">
-          <Search></Search>
-        </div>-->
+        <!--       <div v-show="isShowSearchWindow">
+                 <Search></Search>
+               </div>-->
 
         <div v-show="isShowSearchWindow">
-    <Search></Search>
-  </div>
-  <div v-show="isShowUploadWindow">
-    <FileUpload></FileUpload>
-    </div>
+          <Search></Search>
+        </div>
+        <div v-show="isShowUploadWindow">
+          <FileUpload></FileUpload>
+        </div>
 
         <div class="bpmnContainer">
           <div id="BpmnCanvas" ref="canvas"></div>
-          <div id="BpmnProperties" ref="canvas"></div>
-          <!--        选择需要的api-->
-          <div id="selectApi" ref="canvas">
+
+          <div id="selectApi" ref="canvas" v-show="isShowSelectAPI">
+            <div style="height: 20px"></div>
             <el-cascader
                 ref="cascaderAddr"
                 :options="options"
                 v-model="selectedOptions"
                 @change="handleChange">
               <!--            绑定流程和api-->
-            </el-cascader><el-button @click="sure">选择api</el-button>
+            </el-cascader>
+            <div style="height: 20px"></div>
+            <el-button @click="sure">选择api</el-button>
             <!--            data数据-->
             <!--            向后端发送数据-->
             <el-button @click="transferDict">确定</el-button>
-            <label>选择api:</label>
-            <Message>{{msg}}</Message>
+            <div style="height: 20px"></div>
+            <div>
+              <label>选择api:</label>
+              <div style="height: 20px"></div>
+              <div><Message>{{ msg }}</Message></div>
+            </div>
           </div>
+
+          <div id="BpmnProperties" ref="canvas"></div>
+          <!--        选择需要的api-->
+
         </div>
 
       </el-main>
@@ -169,13 +179,12 @@
 </template>
 
 
-
 <script>
 import BpmnModeler from "bpmn-js/lib/Modeler";
 //右侧元素属性菜单
 import propertiesPanelModule from 'bpmn-js-properties-panel'
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'
-import Search from  '../components/Search'
+import Search from '../components/Search'
 import FileUpload from '../components/FileUpload'
 //文件导入器
 import fileLoader from "../components/Editor/fileLoader.vue";
@@ -185,19 +194,20 @@ import lintModule from "bpmn-js-bpmnlint";
 import bpmnlintConfig from "../bpmn/lint/.bpmnlintrc";
 //空白Bpmn模板
 import BlankStr from "../bpmn/samples/blank.js";
-import  qs from 'qs';
+import qs from 'qs';
 import axios from 'axios';
 
 export default {
   name: "Editor",
-  data: function() {
+  data: function () {
     return {
       xmlStr: this.$store.state.BpmnXml,
       isCollapse: false,
       bpmnModeler: null,
       container: null,
-      isShowSearchWindow:false,
-      isShowUploadWindow:false,
+      isShowSearchWindow: false,
+      isShowUploadWindow: false,
+      isShowSelectAPI:false,
       popup: 0,
       dialogFormVisible: false,
       labelPosition: 'right',
@@ -211,23 +221,24 @@ export default {
         }
       ],
       batchFormNum: 0,
-      msg:[],
+      msg: [],
       tem: [],
-      recomapi:[],
-      selectedOptions:"",
+      recomapi: [],
+      selectedOptions: "",
       options: [],
-      proName:"",
+      proName: "",
       apiDict: {},
     };
   },
   components: {
     fileLoader: fileLoader,
-    Search,FileUpload
+    Search, FileUpload
   },
 
   methods: {
     showpopup() {
       this.popup = 1;
+      this.isShowSelectAPI = true;
     },
     //子组件传来参数
     recevieChildParam(popup, xmlStr) {
@@ -246,6 +257,7 @@ export default {
     showWindow() {
       //const axios = this.$axios;
       //axios.defaults.withCredentials = true
+      this.isShowSelectAPI = false
       this.$prompt('', '请输入您的需求:', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -413,13 +425,13 @@ export default {
       );
     },
     //流程规划
-    checknature: function(){
+    checknature: function () {
       var nature = {};
       // console(batchFormNum);
-      for (var i=0; i<this.batchForm.length;i++){
-        nature[this.batchForm[i].name]=this.batchForm[i].value
+      for (var i = 0; i < this.batchForm.length; i++) {
+        nature[this.batchForm[i].name] = this.batchForm[i].value
       }
-      this.$alert(JSON.stringify(nature) ,'这是您输入的参数',{
+      this.$alert(JSON.stringify(nature), '这是您输入的参数', {
         confirmButtonText: '确定',
         callback: action => {
 
@@ -508,6 +520,9 @@ export default {
     //推荐
 
     recoBPMN: function () {
+
+      this.isShowSelectAPI = false
+
       const axios = this.$axios;
       axios.defaults.withCredentials = true
       var strXML;
@@ -694,8 +709,10 @@ export default {
     },
     // 绑定api和流程
     sure() {
-      this.msg = this.tem
-      // console.log("选择的api是：",this.msg)
+      var simpleAPI = {}
+      simpleAPI["API 名称"] = this.tem.name
+      simpleAPI["API 描述"] = this.tem.content
+      this.msg = simpleAPI
       if (this.proName != "" && this.proName != undefined) {
         // console.log("this.proName is:",this.proName)
         this.$set(this.apiDict, this.proName, this.msg)
@@ -731,6 +748,7 @@ export default {
 
     pmrun: function () {
       this.dialogFormVisible = true;
+      this.resetForm()
       // resetForm();
       // this.batchForm = [{name:"1",value: "",index: 0},{name:"2",value: "",index: 1}]
       var parajson = this.recomapi[0].apiparams;
@@ -760,16 +778,16 @@ export default {
         nature[this.batchForm[i].name] = this.batchForm[i].value
       }
       var parameterJson = JSON.stringify(nature);
-      axios.post("/api/hnust/getDict", {apiDict:this.apiDict,parameterJson:this.parameterJson})
+      axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: this.parameterJson})
     }
   },
 
 
-    //生命周期函数 - 组件载入后, Vue 实例挂载到实际的 DOM 操作完成前执行该操作，不能在created()时初始化
-  mounted: function() {
+  //生命周期函数 - 组件载入后, Vue 实例挂载到实际的 DOM 操作完成前执行该操作，不能在created()时初始化
+  mounted: function () {
     this.initBpmn();
   },
-  activated: function() {
+  activated: function () {
     this.xmlStr = this.$store.state.BpmnXml;
     this.bpmnModeler.importXML(this.xmlStr);
   }
@@ -785,6 +803,7 @@ export default {
   right: 0rem;
   background: #111111;
 }
+
 .login {
   position: fixed;
   font-size: 24px;
@@ -797,20 +816,23 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 1000;
 }
+
 .over {
   position: fixed;
   width: 100%;
   height: 100%;
   opacity: 0.3;
-filter: alpha(opacity=30);
+  filter: alpha(opacity=30);
   top: 0;
   left: 0;
   z-index: 999;
   background-color: #111111;
 }
+
 .el-button {
   background-color: #3F4254;
 }
+
 #editor .el-container {
   position: fixed;
   margin: auto;
@@ -829,10 +851,12 @@ filter: alpha(opacity=30);
 #editor .el-header .el-button-group {
   display: inherit;
 }
+
 .el-main {
 
-    padding: 00px;
+  padding: 00px;
 }
+
 #editor .bpmnContainer {
   position: relative;
   margin: auto;
@@ -849,22 +873,34 @@ filter: alpha(opacity=30);
   width: 100%;
   height: 100%;
 }
+
 #editor #BpmnProperties {
   /* 右侧元素属性菜单 */
-  position:absolute;
-  top:10px;
-  right:10px;
-  width: 300px;
-  height: 450px;
-  overflow-y:scroll;
+  position: absolute;
+  /*top:10px;*/
+  /*right:10px;*/
+  /*width: 300px;*/
+  /*height: 450px;*/
+  top: 0px;
+  right: 0px;
+  width: 0px;
+  height: 0px;
+  overflow-y: scroll;
   /*background-color: rgba(0, 0, 0, 0);*/
 }
-#editor #selectApi{
-  position:fixed;
-  top:600px;
-  right: 900px;
-  width: 300px;
-  height: 100px;
+
+#editor #selectApi {
+  /*position: fixed;*/
+  /*top: 600px;*/
+  /*right: 900px;*/
+  /*width: 300px;*/
+  /*height: 100px;*/
+  position: absolute;
+  top:10px;
+  right:10px;
+  width: 400px;
+  height: 450px;
+  overflow-y: scroll;
 }
 
 @import "~bpmn-js/dist/assets/diagram-js.css";
