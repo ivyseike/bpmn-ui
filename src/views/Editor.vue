@@ -72,7 +72,7 @@
                 <el-form-item label="参数值：">
                   <el-input
                       v-model="item.value"
-                      placeholder="请输入参数值"
+                      placeholder="请输入参数的值"
                       width="120px"
                       style="display:inline"
                   ></el-input>
@@ -80,17 +80,17 @@
               </el-col>
 
               <!--              api添加参数部分-->
-              <!--              <el-col :span="8">-->
-              <el-form-item label="类型:">
-                <div>{{ item.type }}</div>
-              </el-form-item>
-              <!--              </el-col>-->
+              <el-col :span="8">
+                <el-form-item label="类型:">
+                  <div>{{ item.type }}</div>
+                </el-form-item>
+              </el-col>
 
-              <!--              <el-col :span="8">-->
-              <el-form-item label="描述：">
-                <div style="width: 100%">{{ item.info }}</div>
-              </el-form-item>
-              <!--              </el-col>-->
+              <el-col :span="8">
+                <el-form-item label="描述：">
+                  <div style="width: 100%">{{ item.info }}</div>
+                </el-form-item>
+              </el-col>
 
               <!--              <el-col :span="2">-->
               <!--                <el-form-item label-width="10px"  v-if="batchForm[index].index === batchFormNum">-->
@@ -164,7 +164,9 @@
             <div>
               <label>选择api:</label>
               <div style="height: 20px"></div>
-              <div><Message>{{ msg }}</Message></div>
+              <div>
+                <Message>{{ msg }}</Message>
+              </div>
             </div>
           </div>
 
@@ -207,7 +209,7 @@ export default {
       container: null,
       isShowSearchWindow: false,
       isShowUploadWindow: false,
-      isShowSelectAPI:false,
+      isShowSelectAPI: false,
       popup: 0,
       dialogFormVisible: false,
       labelPosition: 'right',
@@ -779,6 +781,7 @@ export default {
       }
       var parameterJson = JSON.stringify(nature);
       axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: this.parameterJson})
+      axios.get("api/hnust/getAns").then(res=>{console.log(res.data)})
     }
   },
 
@@ -896,8 +899,8 @@ export default {
   /*width: 300px;*/
   /*height: 100px;*/
   position: absolute;
-  top:10px;
-  right:10px;
+  top: 10px;
+  right: 10px;
   width: 400px;
   height: 450px;
   overflow-y: scroll;
