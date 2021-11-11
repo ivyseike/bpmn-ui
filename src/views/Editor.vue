@@ -88,7 +88,7 @@
 
               <el-col :span="8">
                 <el-form-item label="描述：">
-                  <div style="width: 100%">{{ item.info }}</div>
+                  <div style="width: 300px">{{ item.info }}</div>
                 </el-form-item>
               </el-col>
 
@@ -159,7 +159,7 @@
             <el-button @click="sure">选择api</el-button>
             <!--            data数据-->
             <!--            向后端发送数据-->
-            <el-button @click="transferDict">确定</el-button>
+<!--            <el-button @click="transferDict">确定</el-button>-->
             <div style="height: 20px"></div>
             <div>
               <label>选择api:</label>
@@ -712,17 +712,20 @@ export default {
     // 绑定api和流程
     sure() {
       var simpleAPI = {}
+      simpleAPI["chosen"] = this.proName
       simpleAPI["API 名称"] = this.tem.name
       simpleAPI["API 描述"] = this.tem.content
       this.msg = simpleAPI
       if (this.proName != "" && this.proName != undefined) {
         // console.log("this.proName is:",this.proName)
-        this.$set(this.apiDict, this.proName, this.msg)
+        this.$set(this.apiDict, this.proName, this.tem)
         // console.log("api 字典是：",this.apiDict)
       } else {
-        console.log("未选中流程")
+        this.$message({
+          type: "info",
+          message: "未选中流程"
+        });
       }
-      this.msg = this.apiDict
     },
     // 传递流程和api的绑定
     transferDict() {
@@ -742,6 +745,12 @@ export default {
             console.log(e.element)
             console.log(e.element.id)
             that.proName = e.element.businessObject.name
+            var showInfo={}
+            showInfo["流程名："]=that.proName
+            showInfo["api名程"]=that.apiDict[that.proName].name
+            showInfo["api描述"]=that.apiDict[that.proName].content
+            console.log(showInfo)
+            that.msg=showInfo
           }
         })
       })
