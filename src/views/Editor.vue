@@ -785,11 +785,11 @@ export default {
     },
     pmplan: function () {
       var nature = {};
-      for (var i = 0; i <= this.batchFormNum; i++) {
+      for (var i = 0; i < this.batchFormNum; i++) {
         nature[this.batchForm[i].name] = this.batchForm[i].value
       }
-      var parameterJson = JSON.stringify(nature);
-      axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: this.parameterJson})
+      // var parameterJson = JSON.stringify(nature);
+      axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
       axios.get("api/hnust/getAns").then(res=>{console.log(res.data)})
     }
   },
