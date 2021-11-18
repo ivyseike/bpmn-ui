@@ -26,7 +26,13 @@ module.exports = {
 						pathRewrite: {
 						'^/api/hnust': ''
 						}
-					}
+					},
+            '/api/runwf':{
+                target: 'http://scheme-generation.ingress.isa.buaanlsde.cn', //要请求的地址
+                changeOrigin: true, //如果需要跨域
+                ws: true,
+
+            }
 				}
 
 		}

@@ -41,10 +41,10 @@
         <el-button-group>
           <el-button type="primary" size="medium" @click="resetBPMN">重置</el-button>
           <el-button type="primary" size="medium" @click="checkBPMN">检查</el-button>
-          <el-button type="primary" size="medium" @click="saveBPMN">保存</el-button>
-          <el-button type="primary" size="medium" @click="recoBPMN">结构推荐</el-button>
-          <el-button type="primary" size="medium" @click="showWindow">语义推荐</el-button>
-          <el-button type="primary" size="medium" @click="showUploadWindow">上传文件</el-button>
+<!--          <el-button type="primary" size="medium" @click="saveBPMN">保存</el-button>-->
+<!--          <el-button type="primary" size="medium" @click="recoBPMN">结构推荐</el-button>-->
+<!--          <el-button type="primary" size="medium" @click="showWindow">语义推荐</el-button>-->
+<!--          <el-button type="primary" size="medium" @click="showUploadWindow">上传文件</el-button>-->
           <!--<el-button type="primary" size="medium" @click="abc">流程规划</el-button>-->
           <el-button type="primary" size="medium" @click="pmrun">运行流程</el-button>
           <el-button type="primary" size="medium" @click="showpopup">api推荐</el-button>
@@ -116,7 +116,7 @@
         <el-button type="primary" size="medium" class="el-icon-check" @click="checknature">检验</el-button>
         <el-button type="primary" size="medium" class="el-icon-refresh" @click="resetForm">重置</el-button>
         <el-button type="primary" size="medium" @click="plan">运行流程</el-button>
-        <el-button type="primary" size="medium" @click="pmplan">运行流程2</el-button>
+<!--        <el-button type="primary" size="medium" @click="pmplan">运行流程2</el-button>-->
         <el-button type="danger" size="medium" @click="dialogFormVisible = false">取消</el-button>
       </el-dialog>
       <el-main>
@@ -455,6 +455,15 @@ export default {
 
     plan: function () {
       this.dialogFormVisible = false;
+      var nature = {};
+      for (var i = 0; i < this.batchFormNum; i++) {
+        nature[this.batchForm[i].name] = this.batchForm[i].value
+      }
+      axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
+      axios.get("api/hnust/getAns").then(res=>{
+        console.log(res.data)
+        axios.post("/api/runwf",{data:res.data})//流程运行，返回流程名
+      })
       axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}})
           .then(res => {
             console.log(res.data)
@@ -746,7 +755,7 @@ export default {
             console.log(e.element.id)
             that.proName = e.element.businessObject.name
             var showInfo={}
-            showInfo["流程名："]=that.proName
+            showInfo["流程任务名："]=that.proName
             showInfo["api名程"]=that.apiDict[that.proName].name
             showInfo["api描述"]=that.apiDict[that.proName].content
             console.log(showInfo)
@@ -788,9 +797,11 @@ export default {
       for (var i = 0; i < this.batchFormNum; i++) {
         nature[this.batchForm[i].name] = this.batchForm[i].value
       }
-      // var parameterJson = JSON.stringify(nature);
       axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
-      axios.get("api/hnust/getAns").then(res=>{console.log(res.data)})
+      axios.get("api/hnust/getAns").then(res=>{
+        console.log(res.data)
+        axios.post("api/runwf",{data:res.data,xml:this.xmlStr})
+      })
     }
   },
 
