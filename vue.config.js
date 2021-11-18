@@ -17,25 +17,45 @@ module.exports = {
 				ws: true,
 				pathRewrite: {
 					'^/api/text2bpmn': '/bpmn', //^/api/text2bpmn 会重写为 target/bpmn
-					}
-				},
+				}
+			},
 			'/api/hnust': {
-					target: 'http://8.129.113.40:8882/', //要请求的地址
-						changeOrigin: true, //如果需要跨域
-						ws: true,
-						pathRewrite: {
-						'^/api/hnust': ''
-						}
-					},
+				target: 'http://8.129.113.40:8882/', //要请求的地址
+				changeOrigin: true, //如果需要跨域
+				ws: true,
+				pathRewrite: {
+					'^/api/hnust': ''
+				}
+			},
             '/api/runwf':{
                 target: 'http://scheme-generation.ingress.isa.buaanlsde.cn', //要请求的地址
                 changeOrigin: true, //如果需要跨域
                 ws: true,
-
-            }
+            },
+            '/api/test': {
+				target: 'http://localhost:5000/', //要请求的地址
+				changeOrigin: true, //如果需要跨域
+				ws: true,
+			},
+			'/api/argost':{
+				target : 'http://argo-serve.ingress.isa.buaanlsde.cn/api/v1/workflows/',
+				changeOrigin: true, //如果需要跨域
+				ws: true,
+				pathRewrite: {
+					'^/api/argost': ''
 				}
-
+			},
+			'/api/getexp':{
+				target : 'http://scheme-generation.ingress.isa.buaanlsde.cn/',
+				changeOrigin: true, //如果需要跨域
+				ws: true,
+				pathRewrite: {
+					'/api/getexp': ''
+				}
+			},
 		}
 
 	}
+
+}
 

@@ -467,10 +467,7 @@ export default {
       axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}})
           .then(res => {
             console.log(res.data)
-            this.$message({
-              type: 'success',
-              message: '开始调用映射图生成组件'
-            })
+            
             this.$router.push({
               path: '/graph',
               query: {
