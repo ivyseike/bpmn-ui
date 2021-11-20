@@ -462,20 +462,21 @@ export default {
       axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
       axios.get("api/hnust/getAns").then(res=>{
         console.log(res.data)
-        axios.post("/api/runwf",{data:res.data})//流程运行，返回流程名
-      })
-      axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}})
-          .then(res => {
-            console.log(res.data)
-            
-            this.$router.push({
-              path: '/graph',
-              query: {
-                xml: this.xmlStr,
-                place: res.data
-              }
+        axios.post("/api/runwf",{data:res.data}).then(res1=>{
+            axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}}).then(res2 => {
+                console.log(res2.data)
+                this.$router.push({
+                path: '/graph',
+                query: {
+                    xml: this.xmlStr,
+                    place: res2.data,
+                    bpmn_name:res1.data
+                } 
+                })
             })
-          })
+        })//流程运行，返回流程名
+      })
+      
       // this.$router.push({
       //   path: '/graph',
       //   query: {
