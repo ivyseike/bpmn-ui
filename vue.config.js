@@ -33,7 +33,7 @@ module.exports = {
                 ws: true,
             },
             '/api/test': {
-				target: 'http://localhost:5000/', //要请求的地址
+				target: 'http://cgg.ingress.isa.buaanlsde.cn', //要请求的地址
 				changeOrigin: true, //如果需要跨域
 				ws: true,
 			},

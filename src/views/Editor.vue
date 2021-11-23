@@ -454,6 +454,15 @@ export default {
     },
 
     plan: function () {
+      this.bpmnModeler.saveXML(
+              {
+                format: true
+              },
+              (err, xml) => {
+                this.xmlStr=xml;
+              }
+      );
+      console.log(this.xmlStr)
       this.dialogFormVisible = false;
       var nature = {};
       for (var i = 0; i < this.batchFormNum; i++) {
@@ -463,18 +472,20 @@ export default {
       axios.get("api/hnust/getAns").then(res=>{
         console.log(res.data)
         axios.post("/api/runwf",{data:res.data}).then(res1=>{
+        //   axios.get("/api/tt").then(res1=>{
             axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}}).then(res2 => {
-                console.log(res2.data)
-                this.$router.push({
+              console.log(res2.data)
+              this.$router.push({
                 path: '/graph',
                 query: {
-                    xml: this.xmlStr,
-                    place: res2.data,
-                    bpmn_name:res1.data
-                } 
-                })
+                  xml: this.xmlStr,
+                  place: res2.data,
+                  bpmn_name:res1.data
+                }
+              })
             })
-        })//流程运行，返回流程名
+          })
+        // }//流程运行，返回流程名
       })
       
       // this.$router.push({
