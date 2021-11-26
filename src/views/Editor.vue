@@ -219,6 +219,7 @@ export default {
           value: "",
           info: "",
           type: "",
+          belongTo:"",
           index: 0,
         }
       ],
@@ -462,12 +463,17 @@ export default {
                 this.xmlStr=xml;
               }
       );
-      console.log(this.xmlStr)
       this.dialogFormVisible = false;
       var nature = {};
       for (var i = 0; i < this.batchFormNum; i++) {
-        nature[this.batchForm[i].name] = this.batchForm[i].value
+        var tmpjson = {}
+        if( nature.hasOwnProperty(this.batchForm[i].belongTo)){
+          tmpjson = nature[this.batchForm[i].belongTo]
+        }
+        tmpjson[this.batchForm[i].name]=this.batchForm[i].value
+        nature[this.batchForm[i].belongTo] = tmpjson
       }
+      console.log(nature)
       axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
       axios.get("api/hnust/getAns").then(res=>{
         console.log(res.data)
@@ -487,23 +493,7 @@ export default {
           })
         // }//流程运行，返回流程名
       })
-      
-      // this.$router.push({
-      //   path: '/graph',
-      //   query: {
-      //     xml: this.xmlStr,
-      //   }
-      // })
-      // axios({
-      //       method: "get",
-      //       url: "https://scheme-generation.ingress.isa.buaanlsde.cn/tt",
-      //       //url: "http://backend-java:8090/recommendation/RecommStructure",
-      //       //url: "http://localhost:8090/recommendation/RecommStructure",
-      //       //data: qs.stringify({lxccontent:strXML})
-      //     })
-      //       .then(res => {
-      //
-      //       })
+
       //window.open('https://scheme-generation.ingress.isa.buaanlsde.cn/tt')
       // window.open('https://argo-serve.ingress.isa.buaanlsde.cn/workflows/argo/')
     },
@@ -712,7 +702,7 @@ export default {
         // i++
         let item = this.recomapi[i]
         console.log("item is:", item)
-        if (i % 2 == 0) {
+        if (item.name != null) {
           this.options.push({value: i, label: item.name})
         }
       }
@@ -780,37 +770,76 @@ export default {
       this.resetForm()
       // resetForm();
       // this.batchForm = [{name:"1",value: "",index: 0},{name:"2",value: "",index: 1}]
-      var parajson = this.recomapi[0].apiparams;
-      //var parajson = "{\"required\":[{\"name\":\"latitude\",\"value\":\"33.775867\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"longitude\",\"value\":\"-84.39733\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"from_date\",\"value\":\"2021-10-07\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"to_date\",\"value\":\"2021-10-07\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"elevation\",\"value\":\"166\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"time\",\"value\":\"12:00:00\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"}]}";
-      var parameters = JSON.parse(parajson);
-      this.batchFormNum = parameters.required.length;
-      for (var i = 0; i < parameters.required.length; i++) {
-        var param = parameters.required[i];
-        // var info = "paramType:"+param.paramType+";description:"+param.description;
-        if (i == 0)
-          this.batchForm.pop();
-        if (param.value == "")
-          this.batchForm.push({name: param.name, value: "", info: param.description, type: param.paramType, index: i});
-        else
-          this.batchForm.push({
-            name: param.name,
-            value: param.value,
-            info: param.description,
-            type: param.paramType,
-            index: i
-          });
+      var transParm = "";
+      var index = 0;
+      // var parajson = this.recomapi[0].apiparams;
+
+      for (var i = 0; i < this.recomapi.length; i++) {
+        if(this.recomapi[i].name == null){
+          var tmpres = this.recomapi[i].result;
+          transParm+=tmpres;
+        }
+        else{
+          console.log(this.recomapi[i].name)
+          console.log(this.recomapi[i].apiparams)
+          var tmp = JSON.parse(this.recomapi[i].apiparams);
+          for (var j = 0; j< tmp.required.length; j++) {
+            var param = tmp.required[j];
+            if(transParm.match(param.name) == null){
+              if(index == 0)
+                this.batchForm.pop();
+              if (param.value == "")
+                this.batchForm.push({name: param.name, value: "", info: param.description, type: param.paramType, belongTo: this.recomapi[i].name,index: index});
+              else
+                this.batchForm.push({
+                  name: param.name,
+                  value: param.value,
+                  info: param.description,
+                  type: param.paramType,
+                  belongTo: this.recomapi[i].name,
+                  index: index
+                });
+              index = index + 1;
+            }
+          }
+        }
       }
+      this.batchFormNum = this.batchForm.length;
+      //var parajson = "{\"required\":[{\"name\":\"latitude\",\"value\":\"33.775867\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"longitude\",\"value\":\"-84.39733\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"from_date\",\"value\":\"2021-10-07\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"to_date\",\"value\":\"2021-10-07\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"elevation\",\"value\":\"166\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"},{\"name\":\"time\",\"value\":\"12:00:00\",\"paramType\":\"STRING\",\"condition\":\"required\",\"description\":\"\"}]}";
+      // var parameters = JSON.parse(parajson);
+      // this.batchFormNum = parameters.required.length;
+      // for (var i = 0; i < parameters.required.length; i++) {
+      //   var param = parameters.required[i];
+      //   // var info = "paramType:"+param.paramType+";description:"+param.description;
+      //   if (i == 0)
+      //     this.batchForm.pop();
+      //   if (param.value == "")
+      //     this.batchForm.push({name: param.name, value: "", info: param.description, type: param.paramType, index: i});
+      //   else
+      //     this.batchForm.push({
+      //       name: param.name,
+      //       value: param.value,
+      //       info: param.description,
+      //       type: param.paramType,
+      //       index: i
+      //     });
+
     },
     pmplan: function () {
+      // var nature = {};
+      // for (var i = 0; i < this.batchFormNum; i++) {
+      //   nature[this.batchForm[i].name] = this.batchForm[i].value
+      // }
+
       var nature = {};
       for (var i = 0; i < this.batchFormNum; i++) {
-        nature[this.batchForm[i].name] = this.batchForm[i].value
+        var tmpjson = {}
+        tmpjson[this.batchForm[i].name] = this.batchForm[i].value
+        nature[this.batchForm[i].belongTo] = tmpjson
       }
+      // var parameterJson = JSON.stringify(nature);
       axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
-      axios.get("api/hnust/getAns").then(res=>{
-        console.log(res.data)
-        axios.post("api/runwf",{data:res.data,xml:this.xmlStr})
-      })
+      axios.get("api/hnust/getAns").then(res=>{console.log(res.data)})
     }
   },
 
