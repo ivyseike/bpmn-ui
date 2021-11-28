@@ -53,6 +53,14 @@ module.exports = {
 					'/api/getexp': ''
 				}
 			},
+			'/api/getlog':{
+				target : 'http://argo-serve.ingress.isa.buaanlsde.cn/artifacts/argo/',
+				changeOrigin: true, //如果需要跨域
+				ws: true,
+				pathRewrite: {
+					'/api/getlog': ''
+				}
+			},
 		}
 
 	}
