@@ -79,7 +79,7 @@ refresh_log: async function(){
           res.push(this.icon_list[i])
     }
         await Promise.all(res.forEach(async (tmp) =>{
-          await axios.get('/api/getlog/'+this.bpmn_name+'/'+tmp.id+'/main-logs').then(log_res => {
+          await axios.get('/api/argost/argo/'+this.bpmn_name+'/'+tmp.id+'/main-logs').then(log_res => {
               
               this.icon_list[tmp['name']]['log']=log_res.data
             
