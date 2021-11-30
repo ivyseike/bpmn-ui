@@ -127,7 +127,7 @@
         <!--        弹窗模块-->
         <div v-show="popup">
           <!--这里是要展示的内容层-->
-          <Search @childFn="recevieChildParam" v-on:transferapi="getApi"></Search>
+          <Search @childFn="recevieChildParam" v-on:transferapi="getApi" @wfname = "createwfname" :sendData = this.wfname></Search>
 
           <!--这里是半透明背景层-->
           <div class="over"></div>
@@ -213,6 +213,7 @@ export default {
       popup: 0,
       dialogFormVisible: false,
       labelPosition: 'right',
+      wfname:"",
       batchForm: [
         {
           name: "",
@@ -371,6 +372,7 @@ export default {
     resetBPMN: function () {
       this.xmlStr = BlankStr;
       this.bpmnModeler.importXML(this.xmlStr);
+      this.wfname= "";
     },
 
     //保存
@@ -454,6 +456,11 @@ export default {
       this.batchFormNum = 0;
     },
 
+    createwfname(msg){
+      this.wfname=msg
+      console.log(this.wfname)
+    },
+
     plan: function () {
       this.bpmnModeler.saveXML(
               {
@@ -477,7 +484,8 @@ export default {
       axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
       axios.get("api/hnust/getAns").then(res=>{
         console.log(res.data)
-        axios.post("/api/runwf",{data:res.data}).then(res1=>{
+        axios.post("/api/runwf",{data:res.data,name:this.wfname}).then(res1=>{
+          console.log(res1.data)
         //   axios.get("/api/tt").then(res1=>{
             axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}}).then(res2 => {
               console.log(res2.data)
@@ -491,7 +499,6 @@ export default {
               })
             })
           })
-        // }//流程运行，返回流程名
       })
 
       //window.open('https://scheme-generation.ingress.isa.buaanlsde.cn/tt')

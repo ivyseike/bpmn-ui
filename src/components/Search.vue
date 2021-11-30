@@ -39,7 +39,8 @@
             cancel(){this.$emit('childFn', this.popup);},
             search(){console.log("search")},
             searchApi(){
-
+                console.log("输入语义",this.state)
+                this.$emit('wfname',this.state)
               // 通过语义推荐api
               axios({
                 url: "/api/hnust/findByRequest",
@@ -47,10 +48,13 @@
                 params: {
                   message: this.state
                 }}).then(res => {
+                  console.log(res.status)
+                  console.log(res.statusText)
                   console.log("res is:",res.data)
                 this.recomapi=res.data
                 // 向父组件传递数据
                 this.$emit('transferapi',this.recomapi)
+
 
               })
               this.$emit('childFn', this.popup)
