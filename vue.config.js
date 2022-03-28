@@ -20,7 +20,7 @@ module.exports = {
 				}
 			},
 			'/api/hnust': {
-				target: 'http://8.129.113.40:8882/', //要请求的地址
+				target: 'http://bpmnbackend.ingress.isa.buaanlsde.cn/', //要请求的地址
 				changeOrigin: true, //如果需要跨域
 				ws: true,
 				pathRewrite: {

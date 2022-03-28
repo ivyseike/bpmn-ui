@@ -1,0 +1,26 @@
+{
+  "apiDict": {
+    "jh2": {
+      "id": "38",
+      "name": "Fitness Calculator:macros amounts",
+      "apiparams": "{\"optional\":[{\"paramType\":\"STRING\",\"condition\":\"optional\",\"name\":\"age\",\"querystring\":\"true\",\"description\":\"\",\"type\":\"routeparameter\",\"value\":\"25\",\"status\":\"ACTIVE\"},{\"paramType\":\"STRING\",\"condition\":\"optional\",\"name\":\"gender\",\"querystring\":\"true\",\"description\":\"\",\"type\":\"routeparameter\",\"value\":\"male\",\"status\":\"ACTIVE\"},{\"paramType\":\"STRING\",\"condition\":\"optional\",\"name\":\"height\",\"querystring\":\"true\",\"description\":\"\",\"type\":\"routeparameter\",\"value\":\"180\",\"status\":\"ACTIVE\"},{\"paramType\":\"STRING\",\"condition\":\"optional\",\"name\":\"weight\",\"querystring\":\"true\",\"description\":\"\",\"type\":\"routeparameter\",\"value\":\"70\",\"status\":\"ACTIVE\"},{\"paramType\":\"STRING\",\"condition\":\"optional\",\"name\":\"activelevel\",\"querystring\":\"true\",\"description\":\"\",\"type\":\"routeparameter\",\"value\":\"5\",\"status\":\"ACTIVE\"},{\"paramType\":\"STRING\",\"condition\":\"optional\",\"name\":\"goal\",\"querystring\":\"true\",\"description\":\"\",\"type\":\"routeparameter\",\"value\":\"extremelose\",\"status\":\"ACTIVE\"}]}",
+      "apiresponse": null,
+      "method": "Get",
+      "field": null,
+      "category": "Sports",
+      "apiroute": "https://fitness-calculator.p.rapidapi.com/macrocalculator?age=25&gender=male&height=180&weight=70&activitylevel=5&goal=extremelose",
+      "content": "Find ??body fat percentage??, ??ideal weight??, ??BMI??, ??daily calory requirement?? and some macro nutrients with this api.",
+      "methodname": "macros amounts",
+      "compositionId": "7"
+    }
+  },
+  "parameterJson": {
+    "Recipe - Food - Nutrition:Match Recipes to Daily Calories": {
+      "targetCalories": "25",
+      "timeFrame": "male"
+    },
+    "Recipe - Food - Nutrition:Get Recipe Nutrition by id": {
+      "id": "1003464"
+    }
+  }
+}

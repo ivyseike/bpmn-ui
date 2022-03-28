@@ -8,18 +8,23 @@
 <!--                         @select="handleSelect"-->
 <!--                         @keyup.enter.native="search"-->
 <!--                          >-->
-          <el-autocomplete class="inputBox"
+          <!--el-autocomplete class="inputBox"
                            v-model="state"
-                           placeholder="请输入内容"
+                           placeholder="请输入所需api种类"
                            :trigger-on-focus="false"
           >
-<!--            <template slot-scope="{ item }">-->
-<!--                <div>-->
-<!--                    <div class="name"><span>{{ item.value }}</span></div>-->
-<!--                    <div class="addr"><span>{{ item.address }}</span></div>-->
-<!--                </div>-->
-<!--            </template>-->
-        </el-autocomplete>
+        </el-autocomplete-->
+
+        <el-cascader 
+        :options="all_field"
+        :props= "{ multiple: 'true'}"
+        ref="cascader"
+        placeholder="请选择"
+        v-model='state'
+        >
+        
+
+        </el-cascader>
         <el-button type="primary" @click="searchApi">确定</el-button>
       <el-button type="primary" @click="cancel">取消</el-button>
     </div>
@@ -32,32 +37,64 @@
         data() {
             return {
                 restaurants: [],
-                state: ''
+                state: '',
+                all_field:[],
+                selected_field:[],
             };
         },
         methods: {
             cancel(){this.$emit('childFn', this.popup);},
             search(){console.log("search")},
-            searchApi(){
-                console.log("输入语义",this.state)
-                this.$emit('wfname',this.state)
-              // 通过语义推荐api
-              axios({
+            get_api: async function(){
+                
+                console.log(this.selected_field)
+                await Promise.all(this.selected_field.forEach(async (tmp) =>{
+                await axios({
                 url: "/api/hnust/findByRequest",
                 method: "get",
                 params: {
-                  message: this.state
+                  message: tmp
                 }}).then(res => {
                   console.log(res.status)
                   console.log(res.statusText)
                   console.log("res is:",res.data)
-                this.recomapi=res.data
+                var recomapi={}
+                recomapi[tmp]=res.data
                 // 向父组件传递数据
-                this.$emit('transferapi',this.recomapi)
+                console.log(res.data)
+                this.$emit('transferapi',recomapi)
+                if(tmp==this.selected_field[this.selected_field.length-1]){
 
-
+                this.$emit('childFn', this.popup)}
+                this.$message({
+                    type: 'success',
+                    message: '成功获取'+tmp+' api推荐'
+                })
+              }).catch(e=>{
+                this.$message({
+                    type: 'error',
+                    message: '获取失败，请检查拼写或使用其他api'
+                })
               })
-              this.$emit('childFn', this.popup)
+          }));
+            },
+            searchApi:function(){
+                
+                console.log("输入语义",this.state[0][0])
+                this.$emit('wfname',this.state[0][0])
+                var nodes=this.$refs['cascader'].getCheckedNodes()
+                console.log(nodes)
+                this.selected_field=[]
+                for (var i in nodes){
+                    this.selected_field.push(nodes[i]['data']['value'])
+                }
+                console.log(this.selected_field)
+                //var tmp=new Set(this.selected_field)
+                //this.$emit("clear_options",tmp)
+                this.get_api()
+              // 通过语义推荐api
+              
+              
             },
             querySearchAsync(queryString, cb) {
                 var restaurants = this.restaurants;
@@ -107,7 +144,7 @@
                     { "value": "超级鸡车（丰庄路店）", "address": "上海市嘉定区丰庄路240号" },
                     { "value": "妙生活果园（北新泾店）", "address": "长宁区新渔路144号" },
                     { "value": "香宜度麻辣香锅", "address": "长宁区淞虹路148号" },
-                    { "value": "凡仔汉堡（老真北路店）", "address": "上海市普陀区老真北路160号" },
+                    { "value": "凡仔汉堡（老真北���店）", "address": "上海市普陀区老真北路160号" },
                     { "value": "港式小铺", "address": "上海市长宁区金钟路968号15楼15-105室" },
                     { "value": "蜀香源麻辣香锅（剑河路店）", "address": "剑河路443-1" },
                     { "value": "北京饺子馆", "address": "长宁区北新泾街道天山西路490-1号" },
@@ -132,6 +169,40 @@
         },
         mounted() {
             this.restaurants = this.loadAll();
+            /*axios({
+                url: "/api/hnust/GetAllField",
+                method: "get",
+                params: {
+                  message: ''
+                }}).then(res => {
+                    this.all_field=[]
+                    for(var i in res){
+                        this.all_field.push({label:res[i],value:i})
+                    }
+                })*/
+    var res={'Movie':'电影','CarbonFootprint':'碳足迹','Post':'求职','Billboard':'广告牌','Fitness':'饮食'}
+    this.all_field=[]
+    for(var i in res){
+        this.all_field.push({label:res[i],value:i})
+    }
+   /*this.all_field=[{
+      label:'电影',
+      value:'Movies'
+    },
+    {
+      label:'饮食',
+      value:'Fitness'
+    },
+    {
+      label:'碳足迹',
+      value:'CarbonFootprint'
+    },
+    {
+      label:'广告',
+      value:'Billboard'
+    }
+    ]*/
+            console.log(this.all_field)
         }
     }
 </script>

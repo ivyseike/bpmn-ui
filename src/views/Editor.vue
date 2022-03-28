@@ -47,7 +47,7 @@
 <!--          <el-button type="primary" size="medium" @click="showUploadWindow">上传文件</el-button>-->
           <!--<el-button type="primary" size="medium" @click="abc">流程规划</el-button>-->
           <el-button type="primary" size="medium" @click="pmrun">运行流程</el-button>
-          <el-button type="primary" size="medium" @click="showpopup">api推荐</el-button>
+          <el-button type="primary" size="medium" @click="showpopup();notindraw=true">api推荐</el-button>
         </el-button-group>
       </el-header>
       <el-dialog title="请输入您的初始参数及设定的值" :visible.sync="dialogFormVisible" center>
@@ -127,7 +127,7 @@
         <!--        弹窗模块-->
         <div v-show="popup">
           <!--这里是要展示的内容层-->
-          <Search @childFn="recevieChildParam" v-on:transferapi="getApi" @wfname = "createwfname" :sendData = this.wfname></Search>
+          <Search  @childFn="recevieChildParam" v-on:transferapi="getApi" @wfname = "createwfname" :sendData = this.wfname v-show='notindraw' @clear_options="clear_options"></Search>
 
           <!--这里是半透明背景层-->
           <div class="over"></div>
@@ -136,43 +136,117 @@
                  <Search></Search>
                </div>-->
 
-        <div v-show="isShowSearchWindow">
+        <!--div v-show="isShowSearchWindow">
           <Search></Search>
         </div>
         <div v-show="isShowUploadWindow">
           <FileUpload></FileUpload>
-        </div>
+        </div-->
 
         <div class="bpmnContainer">
           <div id="BpmnCanvas" ref="canvas"></div>
 
-          <div id="selectApi" ref="canvas" v-show="isShowSelectAPI">
+          <!--div id="selectApi" ref="canvas" v-show="isShowSelectAPI">
             <div style="height: 20px"></div>
             <el-cascader
                 ref="cascaderAddr"
                 :options="options"
-                v-model="selectedOptions"
+                placeholder="selectedOptions"
                 @change="handleChange">
-              <!--            绑定流程和api-->
+              
             </el-cascader>
             <div style="height: 20px"></div>
             <el-button @click="sure">选择api</el-button>
-            <!--            data数据-->
-            <!--            向后端发送数据-->
-<!--            <el-button @click="transferDict">确定</el-button>-->
+            
             <div style="height: 20px"></div>
             <div>
               <label>选择api:</label>
               <div style="height: 20px"></div>
               <div>
-                <Message>{{ msg }}</Message>
+                {{ msg }}
               </div>
             </div>
-          </div>
+          </div-->
 
           <div id="BpmnProperties" ref="canvas"></div>
           <!--        选择需要的api-->
+          <Drawer
+      title="api选择与参数设置"
+      v-model="serviceTask"
+      width="720"
+      :mask-closable="true"
+    >
 
+    <div v-show="popup">
+          <!--这里是要展示的内容层-->
+          <Search @childFn="recevieChildParam" v-on:transferapi="getApi" @wfname = "createwfname" :sendData = this.wfname @clear_options="clear_options"></Search>
+
+          <!--这里是半透明背景层-->
+          <div class="over"></div>
+        </div>
+      <Form :model="formData">
+        
+        <FormItem  label-position="top" >
+          <Input style='width:86%' v-model="newtaskName" placeholder="必须为节点命名！"></Input>
+          <el-button style='width:14%' type="primary" size="medium" @click="updatename">命名</el-button>
+        </FormItem>
+        <FormItem  label-position="top">
+          
+          <el-cascader
+                ref="cascaderAddr"
+                :options="options"
+                v-model="selectedOptions"
+                @change="handleChange"
+                style='width:70%'
+                :disabled="proName==null"
+                >
+            </el-cascader>
+            <el-button @click="clear_api" :disabled="proName==null" size="medium" type="primary" style='width:14%'>取消选择</el-button>
+            <el-button type="primary" size="medium" @click="notindraw=false;showpopup();" style='width:14%' :disabled="proName==null">其他api</el-button>
+            <Input v-model='msg.api描述' readonly='readonly'></Input>
+            
+        </FormItem>
+        <!--FormItem label="URL" label-position="top">
+          <Input v-model="formData.url" placeholder></Input>
+        </FormItem-->
+
+        <!--FormItem label label-position="top">
+          <RadioGroup>
+            <Radio label="get">
+              <span>GET</span>
+            </Radio>
+            <Radio label="post">
+              <span>POST</span>
+            </Radio>
+            <Radio label="put">
+              <span>PUT</span>
+            </Radio>
+            <Radio label="delete">
+              <span>DELETE</span>
+            </Radio>
+          </RadioGroup>
+        </FormItem>
+
+        <FormItem label="Header" label-position="top">
+          <Input v-model="formData.url" placeholder></Input>
+        </FormItem-->
+
+        <FormItem label="参数" label-position="top">
+          <Input
+            type="textarea"
+            v-model="formData.desc"
+            :rows="4"
+            placeholder
+          />
+        </FormItem>
+      </Form>
+      <div class="demo-drawer-footer">
+        <!--Button style="margin-right: 8px" @click="serviceTask = false;"
+          >Cancel</Button
+        -->
+        <Button type="primary" @click="serviceTask = false">配置完成</Button>
+      </div>
+    </Drawer>
         </div>
 
       </el-main>
@@ -182,7 +256,9 @@
 
 
 <script>
-import BpmnModeler from "bpmn-js/lib/Modeler";
+import {CustomModeler as BpmnModeler} from "../components/customBpmn"//"bpmn-js/lib/Modeler";
+import customTranslate from '../components/customBpmn/custranslate';
+//import BpmnModeler from "bpmn-js/lib/Modeler";
 //右侧元素属性菜单
 import propertiesPanelModule from 'bpmn-js-properties-panel'
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'
@@ -203,14 +279,24 @@ export default {
   name: "Editor",
   data: function () {
     return {
+      serviceTask:false,
+      newtaskName:'',
+      all_field:[],
+      notindraw:true,
+      formData: {
+        name: "",
+        type: ""
+      },
+      nmae_map:{},
       xmlStr: this.$store.state.BpmnXml,
       isCollapse: false,
       bpmnModeler: null,
       container: null,
-      isShowSearchWindow: false,
-      isShowUploadWindow: false,
+      /*isShowSearchWindow: false,
+      isShowUploadWindow: false,*/
       isShowSelectAPI: false,
       popup: 0,
+      item_index:-1,
       dialogFormVisible: false,
       labelPosition: 'right',
       wfname:"",
@@ -227,11 +313,14 @@ export default {
       batchFormNum: 0,
       msg: [],
       tem: [],
-      recomapi: [],
+      recomapi: {},
       selectedOptions: "",
       options: [],
       proName: "",
       apiDict: {},
+      task_api_map:{},
+      option_api_map:{},
+      global_options:[]
     };
   },
   components: {
@@ -244,20 +333,49 @@ export default {
       this.popup = 1;
       this.isShowSelectAPI = true;
     },
+    updatename(){
+      if(this.newtaskName==null){
+        return
+      }
+      this.newtaskName=this.newtaskName.replace(/^(\s|\u00A0)+/,'').replace(/(\s|\u00A0)+$/,'')
+      if(this.newtaskName=='' || this.proName==this.newtaskName){
+        return
+      }
+      if(this.proName!=null){
+        this.option_api_map[this.newtaskName]=this.option_api_map[this.proName]
+        console.log(this.option_api_map)
+        this.task_api_map[this.newtaskName]=this.option_api_map[this.proName]
+        delete this.option_api_map[this.proName]
+        delete this.task_api_map[this.proName]
+        if(this.apiDict[this.proName]!=null){
+          this.apiDict[this.newtaskName]=this.apiDict[this.proName]
+          delete this.apiDict[this.proName]
+        }
+      }else{
+        this.option_api_map[this.newtaskName]=JSON.parse(JSON.stringify(this.options))
+        console.log(this.option_api_map)
+      }
+      const element = this.$store.state.bpmn.nodeInfo;
+      const modeling = this.bpmnModeler.get("modeling");
+      modeling.updateLabel(element, this.newtaskName);
+      this.proName=this.newtaskName;
+      console.log(this.proName)
+      
+    },
     //子组件传来参数
     recevieChildParam(popup, xmlStr) {
       this.popup = popup;
       this.xmlStr = xmlStr;
       this.bpmnModeler.importXML(xmlStr);
     },
-    showUploadWindow() {
+    /*showUploadWindow() {
       this.isShowUploadWindow = !this.isShowUploadWindow
       //this.isShowSearchWindow = false
     },
     showSearch() {
       this.isShowSearchWindow = !this.isShowSearchWindow
       this.isShowUploadWindow = false
-    },
+    },*/
     showWindow() {
       //const axios = this.$axios;
       //axios.defaults.withCredentials = true
@@ -307,7 +425,8 @@ export default {
           lintModule,//验证插件
           //右侧属性菜单差插件
           propertiesPanelModule,
-          propertiesProviderModule
+          propertiesProviderModule,
+          
         ],
         linting: {
           bpmnlint: bpmnlintConfig
@@ -460,6 +579,21 @@ export default {
       this.wfname=msg
       console.log(this.wfname)
     },
+    clear_options: function(val){
+      if(this.serviceTask){
+
+        this.option_api_map[this.proName]=null
+        this.task_api_map[this.proName]=null
+      }else{
+        this.global_options=[]
+        this.option_api_map={}
+        this.task_api_map={}
+      }
+      this.options=[]
+      this.selectedOptions=null
+      this.msg.api描述=''
+
+    },
 
     plan: function () {
       this.bpmnModeler.saveXML(
@@ -481,25 +615,42 @@ export default {
         nature[this.batchForm[i].belongTo] = tmpjson
       }
       console.log(nature)
-      axios.post("/api/hnust/getDict", {apiDict: this.apiDict, parameterJson: nature})
-      axios.get("api/hnust/getAns").then(res=>{
-        console.log(res.data)
-        axios.post("/api/runwf",{data:res.data,name:this.wfname}).then(res1=>{
-          console.log(res1.data)
-        //   axios.get("/api/tt").then(res1=>{
-            axios.post("/api/test", {xml: this.xmlStr}, {headers: {"Content-Type": "application/xml"}}).then(res2 => {
-              console.log(res2.data)
-              this.$router.push({
-                path: '/graph',
-                query: {
-                  xml: this.xmlStr,
-                  place: res2.data,
-                  bpmn_name:res1.data
-                }
-              })
+      axios.post("/api/test", { xml: this.xmlStr }, { headers: { "Content-Type": "application/xml" } }).then(res2 => {
+                console.log(res2.data)
+                axios.post("/api/hnust/getDict", { apiDict: this.apiDict, parameterJson: nature }).then(asd => {
+                    axios.get("api/hnust/getAns").then(res => {
+                        console.log(res.data)
+                        var res_tmp = {}
+                        this.nmae_map={}
+                        for (var i in res.data) {
+                            res_tmp['a'+res2.data[i]['id'].substr(9,7)] = res.data[i]
+                            this.nmae_map['a'+res2.data[i]['id'].substr(9,7)]=i
+                        }
+                        console.log(res_tmp)
+                        axios.post("/api/runwf", { data: res_tmp, name: this.wfname }).then(res1 => {
+                            console.log(res1.data)
+                            console.log(this.xmlStr)
+                            //return
+                            if (res1.data == 'Fail') {
+                                this.$message.error("网络连接异常，请重试！");
+                                return
+                            }
+                            //   axios.get("/api/tt").then(res1=>{
+
+                            this.$router.push({
+                                path: '/graph',
+                                query: {
+                                    xml: this.xmlStr,
+                                    place: res2.data,
+                                    bpmn_name: res1.data,
+                                    name_map:this.nmae_map
+                                }
+                            })
+                        })
+                    })
+                })
             })
-          })
-      })
+      
 
       //window.open('https://scheme-generation.ingress.isa.buaanlsde.cn/tt')
       // window.open('https://argo-serve.ingress.isa.buaanlsde.cn/workflows/argo/')
@@ -691,12 +842,112 @@ export default {
         }
       });
     },
+    hasoption(list,item){
+    if(list==null){
+      return false
+    }
+      for(var i in list){
+        if(list[i].value==item){
+          this.item_index=i
+          return true
+        }
+      }
+      return false
+    },
+    updateoption(tmp){
+      if(this.proName==null || this.task_api_map[this.proName]==null){
+        return tmp
+      }
+      for(var i in tmp){
+        if(tmp[i].value==this.task_api_map[this.proName][1]){
+          return tmp
+        }
+      }
+      tmp.push({label:this.task_api_map[this.proName][1],value:this.task_api_map[this.proName][1]})
+      return tmp
+    },
     // api部分
     // 从子组件获得推荐的api列表
     getApi(msg) {
-      this.options = []
-      this.recomapi = []
-      let i = 0;
+      var index=0
+      console.log(this.proName)
+      console.log(this.serviceTask)
+      for (var field in msg){
+        //this.options.push({value:field,label:field,children:[]})
+        var tmp=[]
+        if(msg[field][0].length>0){
+          //console.log(msg[field][0])
+          for(var i in msg[field][0]){
+            //console.log(i)
+            if(msg[field][0][i].name!=null){
+              tmp.push({label:msg[field][0][i].name,value:msg[field][0][i].name})
+              index+=1
+              this.recomapi[msg[field][0][i].name]=msg[field][0][i]
+            }
+          }
+        }else{
+          for(var i in msg[field]){
+            if(msg[field][i].name!=null){
+              tmp.push({label:msg[field][i].name,value:msg[field][i].name})
+              index+=1
+              this.recomapi[msg[field][i].name]=msg[field][i]
+            }
+          }
+        }  
+        if(tmp!=[]){
+          if(this.serviceTask){
+            if(this.hasoption(this.options,field)){
+              if(field=='猜你需要'){
+                this.options[this.item_index].children=this.updateoption(tmp)
+              }else{
+                this.options[this.item_index].children=tmp
+              }
+            }else{
+              if(this.options==null){
+                this.options=[]
+              }
+              if(field=='猜你需要'){
+                this.options.unshift({value:field,label:field,children:tmp})
+              }else{
+                this.options.push({value:field,label:field,children:tmp})
+              }
+            }
+            if(this.proName!='' && this.proName!=null){
+              console.log(this.proName)
+              delete this.option_api_map[this.proName]
+              this.option_api_map[this.proName]=JSON.parse(JSON.stringify(this.options))
+              console.log(this.option_api_map)
+            }
+            if(this.proName=='ft'){
+              console.log('ft:',this.option_api_map['ft'])
+            }
+            console.log(this.option_api_map)
+          }else{
+            console.log('333333333333333333')
+            for(var node in this.option_api_map){
+              if(this.hasoption(this.option_api_map[node],field)){
+                this.option_api_map[node][this.item_index].children=tmp
+              }else{
+                this.option_api_map[node].push({value:field,label:field,children:tmp})
+              }
+            }
+            if(this.hasoption(this.global_options,field)){
+              this.global_options[this.item_index].children=tmp
+            }else{
+              this.global_options.push({value:field,label:field,children:tmp})
+            }
+            this.options=this.global_options
+          }
+        }
+        index+=1
+      }
+      console.log("recomapi is:", this.recomapi)
+      /*for (var i in this.recomapi){
+        console.log(this.recomapi[i].name)
+      }*/
+      
+      /*let i = 0;
+
       if (msg[0].length > 0) {
         console.log(msg[0].length);
         this.recomapi = msg[0]
@@ -712,33 +963,53 @@ export default {
         if (item.name != null) {
           this.options.push({value: i, label: item.name})
         }
-      }
+      }*/
+      
+
     },
     // 选择api
     handleChange(val) {
+      if(this.serviceTask==false){
+        return
+      }
+      this.task_api_map[this.proName]=this.selectedOptions
+      console.log(this.selectedOptions)
+      this.option_api_map[this.proName]=this.options
+      console.log(this.option_api_map)
+      console.log(this.$refs['cascaderAddr'].getCheckedNodes())
       this.$refs['cascaderAddr'].getCheckedNodes()[0].pathLabels
       console.log(this.$refs['cascaderAddr'].getCheckedNodes()[0].value)
       this.tem = this.recomapi[this.$refs['cascaderAddr'].getCheckedNodes()[0].value]
+      this.sure()
       // axios.post("/api/hnust/CreateBPMN",this.msg,{responseType:'blob'}).then(res=>{const binaryData = [];
       //   binaryData.push(res.data);//后端返回的值
       //   this.bpmn=new Blob(binaryData,{type: "application/x-javascript"} );
       // })
     },
     // 绑定api和流程
+    clear_api(){
+      delete this.apiDict[this.proName]
+      delete this.task_api_map[this.proName]
+      this.selectedOptions=''
+      this.msg.api描述=''
+      
+    },
     sure() {
       var simpleAPI = {}
       simpleAPI["chosen"] = this.proName
-      simpleAPI["API 名称"] = this.tem.name
-      simpleAPI["API 描述"] = this.tem.content
+      simpleAPI["api名称"] = this.tem.name
+      simpleAPI["api描述"] = this.tem.content
       this.msg = simpleAPI
+      console.log(this.msg)
       if (this.proName != "" && this.proName != undefined) {
-        // console.log("this.proName is:",this.proName)
+         console.log("this.proName is:",this.proName)
         this.$set(this.apiDict, this.proName, this.tem)
-        // console.log("api 字典是：",this.apiDict)
+
+        console.log("api 字典是：",this.apiDict)
       } else {
         this.$message({
           type: "info",
-          message: "未选中流程"
+          message: "未选中任务，请检查是否为任务命名"
         });
       }
     },
@@ -755,17 +1026,56 @@ export default {
         eventBus.on(eventType, function (e) {
           if (!e || e.element.type === 'bpmn:process') {
             console.log("false");
+            
             return
           } else {
-            console.log(e.element)
-            console.log(e.element.id)
+            
             that.proName = e.element.businessObject.name
+            that.newtaskName=that.proName
+            console.log(that.proName)
+            console.log(that.global_options)
+            console.log(that.option_api_map[that.proName])
             var showInfo={}
             showInfo["流程任务名："]=that.proName
-            showInfo["api名程"]=that.apiDict[that.proName].name
-            showInfo["api描述"]=that.apiDict[that.proName].content
+            try
+            {
+              showInfo["api名程"]=that.apiDict[that.proName].name
+              showInfo["api描述"]=that.apiDict[that.proName].content
+            }catch(e){
+              console.log(e)
+              showInfo["api名程"]=''
+              showInfo["api描述"]=''
+            }
             console.log(showInfo)
             that.msg=showInfo
+            if(that.task_api_map[that.proName]==null || that.task_api_map[that.proName]==''){
+              that.selectedOptions=null
+              that.msg.api描述=''
+              if(that.option_api_map[that.proName]==null){
+                that.options=that.global_options
+
+              }else{
+                that.options=that.option_api_map[that.proName]
+              }
+              
+              console.log('ghj')
+              //console.log(that.global_options)
+            }else{
+              that.selectedOptions=that.task_api_map[that.proName]
+              that.options=that.option_api_map[that.proName]
+              console.log('y')
+            }
+            
+            //that.options.push([{value:'猜你需要',label:'猜你需要',children:[{value:}]}])
+            /*if(that.option_api_map[that.proName]!=null){
+              that.options=that.option_api_map[that.proName]
+            }
+            that.selectedOptions=that.task_api_map[that.proName]
+            if(that.selectedOptions==null){
+              that.msg.api描述=''
+            }*/
+            console.log(that.selectedOptions)
+            
           }
         })
       })
@@ -780,9 +1090,10 @@ export default {
       var transParm = "";
       var index = 0;
       // var parajson = this.recomapi[0].apiparams;
-
-      for (var i = 0; i < this.recomapi.length; i++) {
-        if(this.recomapi[i].name == null){
+      console.log(this.recomapi)
+      for (var i in this.recomapi) {
+        console.log(i)
+        if(i == null){
           var tmpres = this.recomapi[i].result;
           transParm+=tmpres;
         }
@@ -790,20 +1101,23 @@ export default {
           console.log(this.recomapi[i].name)
           console.log(this.recomapi[i].apiparams)
           var tmp = JSON.parse(this.recomapi[i].apiparams);
+          if(tmp.required==null){
+            continue;
+          }
           for (var j = 0; j< tmp.required.length; j++) {
             var param = tmp.required[j];
             if(transParm.match(param.name) == null){
               if(index == 0)
                 this.batchForm.pop();
               if (param.value == "")
-                this.batchForm.push({name: param.name, value: "", info: param.description, type: param.paramType, belongTo: this.recomapi[i].name,index: index});
+                this.batchForm.push({name: param.name, value: "", info: param.description, type: param.paramType, belongTo: i,index: index});
               else
                 this.batchForm.push({
                   name: param.name,
                   value: param.value,
                   info: param.description,
                   type: param.paramType,
-                  belongTo: this.recomapi[i].name,
+                  belongTo: i,
                   index: index
                 });
               index = index + 1;
@@ -854,10 +1168,106 @@ export default {
   //生命周期函数 - 组件载入后, Vue 实例挂载到实际的 DOM 操作完成前执行该操作，不能在created()时初始化
   mounted: function () {
     this.initBpmn();
+    
   },
   activated: function () {
     this.xmlStr = this.$store.state.BpmnXml;
     this.bpmnModeler.importXML(this.xmlStr);
+  },
+  computed: {
+    task: {
+      get: function() {
+        const that = this;
+        const element = this.$store.state.bpmn.nodeInfo;
+        if (element.businessObject) {
+          console.log(
+            element.businessObject.id,
+            element.businessObject.name,
+            element.businessObject.$type
+          );
+          if(element.businessObject.name==null){
+            that.selectedOptions=''
+            that.msg.api描述=''
+            //that.proName=null
+            //that.newtaskName=null
+          }
+          //if (element.businessObject.$type === "bpmn:Task") {
+            that.formData.type = "任务";
+            //that.newtaskName = element.businessObject.name;
+            //that.proName=that.newtaskName
+            that.serviceTask = this.$store.state.bpmn.nodeVisible;
+            
+          //}
+        }
+
+        return false;
+      },
+      set: function(val) {
+        this.$store.state.bpmn.nodeVisible = val;
+
+      }
+    }
+  },
+  watch: {
+    task(val) {},
+    
+    serviceTask(val) {
+      this.$store.state.bpmn.nodeVisible = val;
+      if(val){
+        console.log(this.proName)
+        const element = this.$store.state.bpmn.nodeInfo;
+        if (element.businessObject) {
+          console.log('in1')
+          if(element.businessObject.name==null){
+            console.log('in2')
+            this.proName=null
+            this.newtaskName=null
+            this.options=JSON.parse(JSON.stringify(this.global_options))
+          }else{
+            console.log(element.businessObject.name)
+            this.proName=element.businessObject.name
+            this.newtaskName=element.businessObject.name
+            if(this.option_api_map[this.proName]==null){
+              this.option_api_map[this.proName]=JSON.parse(JSON.stringify(this.global_options))
+            }
+            this.options=this.option_api_map[this.proName]
+          }
+        }
+        //this.options.push({value:'rty',label:'rtyt'})
+        /*axios({
+          url: "/api/hnust/findByRequest",
+          method: "get",
+          params: {
+          message: 'Movies'
+        }}).then(res => {
+          this.getApi({'猜你需要':res.data}) 
+          console.log(this.proName)
+        })*/
+        /*axios({
+          url: "/api/hnust/GetRecmApi",
+          method: "post",
+          params: {
+          message: ''
+        }}).then(res => {
+          this.getApi({'猜你需要':res.data}) 
+          console.log(this.proName)
+        })*/
+      }
+    },
+    del_node(val){
+      this.$store.state.bpmn.to_del = val;
+    },
+    
+    /*"newtaskName": {
+      handler(val, old) {
+        const element = this.$store.state.bpmn.nodeInfo;
+        const modeling = this.bpmnModeler.get("modeling");
+        modeling.updateLabel(element, val);
+        this.proName=val;
+        console.log(this.option_api_map)
+      },*/
+      /*deep: true
+    }*/
   }
 }
 </script>

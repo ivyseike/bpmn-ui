@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 //空白Bpmn模板
 import BlankStr from '../bpmn/samples/blank.js'
 
+import bpmn from "./modules/bpmn";
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,5 +21,5 @@ export default new Vuex.Store({
 			context.commit('editXml',NewXml)
 		}
 	},
-	modules: {}
+	modules: {bpmn}
 })

@@ -5,6 +5,11 @@ import store from './store'
 import axios from 'axios'
 import './plugins/element.js'
 import 'element-ui/lib/theme-chalk/index.css';
+import "./plugins/iview.js";
+import "bpmn-js/dist/assets/diagram-js.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 
 Vue.config.productionTip = false
 
